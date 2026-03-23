@@ -1,5 +1,6 @@
 import { propertyInfo } from '../data/propertyData';
-import { MapPin, Clock } from 'lucide-react';
+import { MapPin, Clock, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Location() {
   const { locationAdvantages } = propertyInfo;
@@ -8,7 +9,8 @@ export default function Location() {
 
   return (
     <div className="bg-[#0d0d1a] min-h-screen pb-24 w-full">
-      {/* Header */}
+
+      {/* ── Header ── */}
       <section
         className="relative flex items-center justify-center px-4 text-center overflow-hidden"
         style={{ background: 'linear-gradient(160deg, #070714 0%, #0d0d1a 55%, #110800 100%)' }}
@@ -20,8 +22,8 @@ export default function Location() {
             backgroundSize: '40px 40px',
           }}
         />
-        <div className="relative z-10 w-full max-w-2xl mx-auto pt-8 pb-10 flex flex-col items-center gap-3 text-center">
-          <div className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/25 px-4 py-1.5 rounded-full">
+        <div className="relative z-10 w-full max-w-2xl mx-auto pt-8 pb-10 flex flex-col items-center gap-4 text-center">
+          <div className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/25 px-5 py-2 rounded-full">
             <MapPin size={10} className="text-orange-400" />
             <span className="text-orange-400 text-[10px] font-black tracking-[3px] uppercase">Find Us</span>
           </div>
@@ -36,45 +38,40 @@ export default function Location() {
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-500/20 to-transparent" />
       </section>
 
-      {/* Map + Advantages — Map LEFT, Advantages RIGHT */}
-      <section className="px-4 sm:px-8 lg:px-12 py-12 sm:py-16">
-        <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-start">
+      {/* ── Map + Advantages ── */}
+      <section className="px-4 sm:px-8 lg:px-12 py-16 sm:py-24">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-start">
 
-          {/* LEFT — Location Map */}
+          {/* LEFT — Map */}
           <div>
-            <h2 className="text-2xl font-black text-white mb-6" style={{ fontFamily: 'Playfair Display, serif' }}>
+            <h2 className="text-2xl sm:text-3xl font-black text-white mb-7" style={{ fontFamily: 'Playfair Display, serif' }}>
               <span className="text-orange-400">Location</span> Map
             </h2>
 
             {/* Visual Map Card */}
-            <div className="rounded-2xl overflow-hidden border border-orange-500/20 shadow-2xl mb-6 bg-[#0d1a2e]">
-
-              {/* Card header */}
-              <div className="bg-[#0a0a14] border-b border-orange-500/10 px-4 py-3 flex items-center gap-3">
+            <div className="rounded-2xl overflow-hidden border border-orange-500/20 shadow-2xl mb-6 bg-[#0d1a2e] hover:border-orange-500/40 transition-colors">
+              <div className="bg-[#0a0a14] border-b border-orange-500/10 px-5 py-3.5 flex items-center gap-3">
                 <MapPin size={16} className="text-orange-400" />
                 <span className="text-gray-300 text-sm font-medium">NIMZ CITY — Kohir, Sangareddy</span>
               </div>
 
-              {/* NH 65 Highway bar — full width, no overlap */}
-              <div className="w-full bg-gray-700 py-2.5 flex items-center justify-center border-b border-yellow-500/20">
+              <div className="w-full bg-gray-700 py-3 flex items-center justify-center border-b border-yellow-500/20">
                 <span className="text-yellow-300 text-xs font-black tracking-[2px] uppercase">
                   ← NH 65 — MUMBAI HIGHWAY →
                 </span>
               </div>
 
-              {/* NIMZ CITY site pin */}
-              <div className="flex justify-center py-4 border-b border-white/5">
-                <div className="flex flex-col items-center gap-1">
-                  <div className="bg-orange-500 text-white text-xs font-black px-4 py-1.5 rounded-full shadow-lg shadow-orange-500/40 animate-pulse">
+              <div className="flex justify-center py-5 border-b border-white/5">
+                <div className="flex flex-col items-center gap-1.5">
+                  <div className="bg-orange-500 text-white text-xs font-black px-5 py-2 rounded-full shadow-lg shadow-orange-500/40 animate-pulse">
                     📍 NIMZ CITY — OUR SITE
                   </div>
-                  <div className="w-px h-3 bg-orange-500/60" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-orange-500" />
+                  <div className="w-px h-4 bg-orange-500/60" />
+                  <div className="w-3 h-3 rounded-full bg-orange-500 shadow-lg shadow-orange-500/50" />
                 </div>
               </div>
 
-              {/* Landmark grid — 3 columns, no overlap */}
-              <div className="grid grid-cols-3 gap-2 p-4">
+              <div className="grid grid-cols-3 gap-3 p-5">
                 {[
                   { name: 'NIMZ Zone',    icon: '🏭', color: 'border-blue-500/40   bg-blue-600/10   text-blue-300'   },
                   { name: 'Kohir X Road', icon: '🔀', color: 'border-green-500/40  bg-green-600/10  text-green-300'  },
@@ -83,21 +80,21 @@ export default function Location() {
                   { name: 'Sangareddy',  icon: '🏙️', color: 'border-teal-500/40   bg-teal-600/10   text-teal-300'   },
                   { name: 'Food SEZ',    icon: '🏗️', color: 'border-amber-500/40  bg-amber-600/10  text-amber-300'  },
                 ].map(l => (
-                  <div key={l.name} className={`border rounded-xl p-2 flex flex-col items-center gap-1 text-center ${l.color}`}>
-                    <span className="text-base">{l.icon}</span>
+                  <div key={l.name} className={`border rounded-xl p-3 flex flex-col items-center gap-1.5 text-center hover:scale-105 transition-transform cursor-default ${l.color}`}>
+                    <span className="text-lg">{l.icon}</span>
                     <p className="text-white text-[10px] font-bold leading-tight">{l.name}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Google Maps Embed */}
-            <div className="rounded-2xl overflow-hidden border border-orange-500/20">
+            {/* Google Maps */}
+            <div className="rounded-2xl overflow-hidden border border-orange-500/20 shadow-xl mb-6">
               <iframe
                 title="NIMZ CITY Location"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15222.345678901234!2d77.88260000000001!3d17.884600000000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcbf0b0b0b0b0b1%3A0xabcdef1234567890!2sKohir%2C%20Sangareddy%2C%20Telangana!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
                 width="100%"
-                height="300"
+                height="320"
                 style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg)' }}
                 allowFullScreen
                 loading="lazy"
@@ -105,18 +102,19 @@ export default function Location() {
               />
             </div>
 
-            {/* Nearby brands */}
-            <div className="mt-6 bg-[#0a0a14] border border-orange-500/10 rounded-xl p-4 sm:p-5">
-              <h3 className="text-white font-bold text-sm mb-4 flex items-center gap-2">
-                <span className="text-orange-400">🏢</span> Major Companies Nearby
+            {/* Nearby Brands */}
+            <div className="bg-[#0a0a14] border border-orange-500/10 rounded-2xl p-5 sm:p-6">
+              <h3 className="text-white font-bold text-sm mb-5 flex items-center gap-2">
+                <span>🏢</span>
+                <span>Major Companies Nearby</span>
               </h3>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2.5">
                 {nearbyBrands.map(b => (
-                  <span key={b} className="bg-[#1a1a3e] text-gray-300 text-xs font-medium px-3 py-1.5 rounded-lg border border-orange-500/10">
+                  <span key={b} className="bg-[#1a1a3e] text-gray-300 text-xs font-semibold px-4 py-2 rounded-xl border border-orange-500/10 hover:border-orange-500/30 hover:text-white transition-colors">
                     {b}
                   </span>
                 ))}
-                <span className="bg-orange-500/10 text-orange-400 text-xs font-medium px-3 py-1.5 rounded-lg border border-orange-500/20">
+                <span className="bg-orange-500/10 text-orange-400 text-xs font-semibold px-4 py-2 rounded-xl border border-orange-500/20 hover:bg-orange-500/20 transition-colors">
                   + More Upcoming
                 </span>
               </div>
@@ -125,7 +123,7 @@ export default function Location() {
 
           {/* RIGHT — Location Advantages */}
           <div>
-            <h2 className="text-2xl font-black text-white mb-6" style={{ fontFamily: 'Playfair Display, serif' }}>
+            <h2 className="text-2xl sm:text-3xl font-black text-white mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
               <span className="text-orange-400">Location</span> Advantages
             </h2>
             <p className="text-gray-400 text-sm mb-8 leading-relaxed">
@@ -137,9 +135,11 @@ export default function Location() {
               {locationAdvantages.map((item, i) => (
                 <div
                   key={i}
-                  className="flex items-center gap-4 bg-[#0a0a14] border border-orange-500/10 hover:border-orange-500/40 rounded-xl p-4 transition-all group card-hover"
+                  className="flex items-center gap-4 bg-[#0a0a14] border border-orange-500/10
+                             hover:border-orange-500/40 hover:bg-[#111827] hover:shadow-lg hover:shadow-orange-500/5
+                             rounded-xl p-4 sm:p-5 transition-all duration-200 group cursor-default"
                 >
-                  <div className="flex-shrink-0 bg-orange-500 text-white text-xs font-black px-3 py-2 rounded-lg min-w-[60px] sm:min-w-[72px] text-center leading-tight">
+                  <div className="flex-shrink-0 bg-orange-500 text-white text-xs font-black px-3 py-2.5 rounded-lg min-w-[68px] sm:min-w-[80px] text-center leading-tight shadow-md shadow-orange-500/25">
                     {item.time}
                   </div>
                   <div className="flex items-center gap-3">
@@ -153,30 +153,38 @@ export default function Location() {
             </div>
 
             {/* Image Grid */}
-            <div className="mt-8 grid grid-cols-2 gap-3">
+            <div className="mt-8 grid grid-cols-2 gap-4">
               {[
                 { img: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&q=80', label: 'NIMZ Zone' },
                 { img: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400&q=80', label: 'Mumbai Highway NH65' },
                 { img: 'https://images.unsplash.com/photo-1562774053-701939374585?w=400&q=80', label: 'Woxsen University' },
                 { img: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=400&q=80', label: 'IIT Kandi' },
               ].map(img => (
-                <div key={img.label} className="gallery-item relative rounded-xl overflow-hidden h-24 sm:h-32">
-                  <img src={img.img} alt={img.label} className="w-full h-full object-cover" />
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 p-2">
-                    <p className="text-white text-xs font-bold">{img.label}</p>
-                  </div>
+                <div key={img.label} className="gallery-item relative rounded-xl overflow-hidden h-32 sm:h-40 group">
+                  <img src={img.img} alt={img.label} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                  <p className="absolute bottom-0 left-0 right-0 text-white text-xs font-bold p-3">{img.label}</p>
                 </div>
               ))}
+            </div>
+
+            <div className="mt-8">
+              <Link
+                to="/contact"
+                className="btn-gold w-full flex items-center justify-center gap-2 py-3.5 rounded-xl text-sm font-bold tracking-wider uppercase shadow-lg shadow-orange-500/25"
+              >
+                Book a Free Site Visit <ArrowRight size={15} />
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Site Address */}
-      <section className="bg-[#0a0a14] border-t border-orange-500/10 py-10 px-4 sm:px-8 lg:px-12">
+      {/* ── Address Footer ── */}
+      <section className="bg-[#0a0a14] border-t border-orange-500/10 py-12 px-4 sm:px-8 lg:px-12">
         <div className="text-center">
           <p className="text-orange-400 text-xs tracking-[4px] uppercase font-bold mb-4">Office Address</p>
-          <p className="text-white font-bold text-lg mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>ABIVYA GROUP</p>
+          <p className="text-white font-bold text-xl mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>ABIVYA GROUP</p>
           <p className="text-gray-400 text-sm leading-relaxed">
             8-2-293/82/HE/82&83, Flat No 102, Serenade Apartment,<br />
             Road Number 69, Nandagiri Hills, Jubilee Hills, Hyderabad.

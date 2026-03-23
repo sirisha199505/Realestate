@@ -13,6 +13,16 @@ export const propertyInfo = {
     mandal: "KOHIR MANDAL",
     district: "SANGAREDDY DISTRICT",
   },
+  rera: {
+    registrationNo: "P01100010688",
+    authority: "Telangana Real Estate Regulatory Authority",
+    shortAuthority: "TGRERA",
+    website: "https://rera.telangana.gov.in",
+    validFrom: "27/11/2025",
+    validUpto: "27/11/2027",
+    promoter: "ABIVYA GROUP AND OTHER",
+    representative: "RAJESH SAVARAPU AND OTHERS",
+  },
   location: "Kohir, Sangareddy District, Telangana",
   roads: "40 Feet & 33 Feet CC Roads",
 

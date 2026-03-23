@@ -18,8 +18,8 @@ function ClientLayout({ children }) {
   return (
     <>
       <Navbar />
-      {/* Spacer exactly matches fixed navbar height: ~34px strip + 68px bar = 102px, +10 buffer */}
-      <div style={{ height: '112px' }} />
+      {/* Spacer: mobile ~128px (2-line strip ~48px + 68px bar + 12 buffer), desktop ~112px */}
+      <div className="h-[128px] sm:h-[112px]" />
       <main className="w-full">{children}</main>
       <Footer />
     </>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Menu, X } from 'lucide-react';
+import { propertyInfo } from '../data/propertyData';
 
 function AbivyaIcon({ size = 30 }) {
   return (
@@ -69,12 +70,34 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0d0d1a]/97 backdrop-blur-md border-b border-white/10">
 
       {/* ── Announcement strip ── */}
-      <div className="bg-orange-500 py-2 text-center text-xs font-semibold text-white tracking-wide">
-        <span>✅ Spot Registration Available</span>
-        <span className="mx-4 opacity-50">|</span>
-        <span className="hidden sm:inline">🏦 Bank Loan Available</span>
-        <span className="hidden sm:inline mx-4 opacity-50">|</span>
-        <span className="hidden sm:inline">LP No. 102/2025/H</span>
+      <div className="bg-orange-500 text-center text-xs font-semibold text-white tracking-wide">
+        {/* Mobile: two rows */}
+        <div className="sm:hidden px-4 py-1.5 flex flex-col items-center gap-0.5">
+          <span>✅ Spot Registration Available &nbsp;·&nbsp; 🏦 Bank Loan Available</span>
+          <a
+            href={propertyInfo.rera.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-black underline underline-offset-2 hover:opacity-80 transition-opacity"
+          >
+            🏛️ RERA Regd. No: {propertyInfo.rera.registrationNo}
+          </a>
+        </div>
+        {/* Desktop: single row */}
+        <div className="hidden sm:flex items-center justify-center gap-3 py-2">
+          <span>✅ Spot Registration Available</span>
+          <span className="opacity-50">|</span>
+          <span>🏦 Bank Loan Available</span>
+          <span className="opacity-50">|</span>
+          <a
+            href={propertyInfo.rera.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-black underline underline-offset-2 hover:opacity-80 transition-opacity"
+          >
+            🏛️ RERA Regd. No: {propertyInfo.rera.registrationNo}
+          </a>
+        </div>
       </div>
 
       {/* ── Main bar ── */}

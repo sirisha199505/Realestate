@@ -6,12 +6,12 @@ import {
 } from 'lucide-react';
 
 const inputCls =
-  'w-full h-12 bg-[#0a0a14] border border-white/10 rounded-lg px-4 text-white text-sm ' +
+  'w-full h-12 bg-[#0a0a14] border border-white/10 rounded-xl px-4 text-white text-sm ' +
   'placeholder:text-gray-500 focus:outline-none focus:border-orange-500 focus:ring-2 ' +
   'focus:ring-orange-500/20 transition-all duration-200';
 
 const selectCls =
-  'w-full h-12 bg-[#0a0a14] border border-white/10 rounded-lg px-4 text-sm ' +
+  'w-full h-12 bg-[#0a0a14] border border-white/10 rounded-xl px-4 text-sm ' +
   'focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 ' +
   'transition-all duration-200 appearance-none text-white cursor-pointer';
 
@@ -63,6 +63,12 @@ export default function Contact() {
         }}
       >
         <div className="absolute inset-0 bg-gradient-to-b from-[#0d0d1a]/90 via-[#0d0d1a]/80 to-[#0d0d1a]" />
+        <div className="absolute inset-0 opacity-[0.025]"
+          style={{
+            backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)',
+            backgroundSize: '40px 40px',
+          }}
+        />
         <div className="relative z-10 w-full max-w-2xl mx-auto pt-8 pb-10 flex flex-col items-center gap-3">
           <div className="inline-flex items-center gap-2 bg-orange-500/15 border border-orange-500/30 px-5 py-2 rounded-full">
             <Phone size={12} className="text-orange-400" />
@@ -83,11 +89,11 @@ export default function Contact() {
       </section>
 
       {/* ── Main Content ── */}
-      <div className="px-4 sm:px-8 lg:px-12 py-12 sm:py-16">
+      <div className="px-4 sm:px-8 lg:px-12 py-16 sm:py-20">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-start">
 
           {/* ══ LEFT — Contact Info ══ */}
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-7">
 
             {/* Heading */}
             <div>
@@ -104,7 +110,7 @@ export default function Contact() {
             </div>
 
             {/* Contact cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
               {[
                 {
                   icon: <Phone size={18} className="text-orange-400" />,
@@ -132,15 +138,16 @@ export default function Contact() {
                 const card = (
                   <div
                     key={item.label}
-                    className="flex items-start gap-4 bg-[#111827] border border-white/8 rounded-xl p-4
-                               hover:border-orange-500/40 transition-all duration-200 group"
+                    className="flex items-start gap-4 bg-[#111827] border border-white/8 rounded-xl p-5
+                               hover:border-orange-500/40 hover:shadow-lg hover:shadow-orange-500/5
+                               transition-all duration-200 group"
                   >
-                    <div className="w-10 h-10 flex-shrink-0 rounded-lg bg-orange-500/10 border border-orange-500/20
+                    <div className="w-11 h-11 flex-shrink-0 rounded-xl bg-orange-500/10 border border-orange-500/20
                                     flex items-center justify-center group-hover:bg-orange-500/20 transition-colors">
                       {item.icon}
                     </div>
                     <div className="min-w-0">
-                      <p className="text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1">{item.label}</p>
+                      <p className="text-gray-500 text-[10px] font-bold tracking-widest uppercase mb-1.5">{item.label}</p>
                       {item.lines.map((line, i) => (
                         <p key={i} className="text-white text-sm font-medium leading-snug break-all">{line}</p>
                       ))}
@@ -154,9 +161,9 @@ export default function Contact() {
             </div>
 
             {/* Why Choose Us */}
-            <div className="bg-gradient-to-br from-orange-500/10 to-orange-500/5 border border-orange-500/20 rounded-xl p-5">
-              <p className="text-orange-400 text-xs font-bold tracking-[3px] uppercase mb-4">Why Choose Us</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-2.5">
+            <div className="bg-gradient-to-br from-orange-500/10 to-orange-500/5 border border-orange-500/20 rounded-xl p-6">
+              <p className="text-orange-400 text-xs font-bold tracking-[3px] uppercase mb-5">Why Choose Us</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3">
                 {[
                   'Free site visit arrangement',
                   'No hidden charges ever',
@@ -165,8 +172,8 @@ export default function Contact() {
                   'Legal documentation support',
                   'Expert investment guidance',
                 ].map(item => (
-                  <div key={item} className="flex items-center gap-3">
-                    <CheckCircle size={14} className="text-orange-400 flex-shrink-0" />
+                  <div key={item} className="flex items-center gap-3 bg-white/[0.03] border border-white/5 rounded-lg px-4 py-2.5">
+                    <CheckCircle size={15} className="text-orange-400 flex-shrink-0" />
                     <span className="text-gray-300 text-sm">{item}</span>
                   </div>
                 ))}
@@ -175,11 +182,11 @@ export default function Contact() {
           </div>
 
           {/* ══ RIGHT — Enquiry Form ══ */}
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-5">
             {submitted ? (
               <div className="bg-[#111827] border border-green-500/30 rounded-2xl p-10 sm:p-14 text-center">
                 <div className="w-20 h-20 rounded-full bg-green-500/15 border-2 border-green-500/30
-                                flex items-center justify-center mx-auto mb-5">
+                                flex items-center justify-center mx-auto mb-6">
                   <CheckCircle size={36} className="text-green-400" />
                 </div>
                 <h3
@@ -193,7 +200,7 @@ export default function Contact() {
                 </p>
                 <button
                   onClick={() => setSubmitted(false)}
-                  className="btn-gold px-8 py-3 rounded-lg text-sm font-bold tracking-wider uppercase inline-flex items-center gap-2"
+                  className="btn-gold px-8 py-3.5 rounded-xl text-sm font-bold tracking-wider uppercase inline-flex items-center gap-2 shadow-lg shadow-orange-500/25"
                 >
                   Submit Another <ArrowRight size={15} />
                 </button>
@@ -202,22 +209,22 @@ export default function Contact() {
               <div className="bg-[#111827] border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
 
                 {/* Form header bar */}
-                <div className="bg-gradient-to-r from-orange-500/10 to-transparent border-b border-white/8 px-6 py-4 flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-orange-500 flex items-center justify-center shadow-lg shadow-orange-500/30 flex-shrink-0">
+                <div className="bg-gradient-to-r from-orange-500/10 to-transparent border-b border-white/8 px-6 py-5 flex items-center gap-4">
+                  <div className="w-11 h-11 rounded-xl bg-orange-500 flex items-center justify-center shadow-lg shadow-orange-500/30 flex-shrink-0">
                     <Send size={18} className="text-white" />
                   </div>
                   <div>
                     <h2 className="text-white font-black text-base" style={{ fontFamily: 'Playfair Display, serif' }}>
                       Send an Enquiry
                     </h2>
-                    <p className="text-gray-500 text-xs">We respond within 24 hours</p>
+                    <p className="text-gray-500 text-xs mt-0.5">We respond within 24 hours</p>
                   </div>
                 </div>
 
-                <form onSubmit={handleSubmit} className="p-6 flex flex-col gap-4">
+                <form onSubmit={handleSubmit} className="p-6 flex flex-col gap-5">
 
                   {/* Name + Phone */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
                       <Label text="Full Name" required />
                       <input
@@ -243,7 +250,7 @@ export default function Contact() {
                   </div>
 
                   {/* Email + Plot Size */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
                       <Label text="Email Address" />
                       <input
@@ -284,18 +291,18 @@ export default function Contact() {
                       onChange={set('message')}
                       placeholder="Any questions, requirements, or preferred time for a site visit..."
                       rows={4}
-                      className="w-full bg-[#0a0a14] border border-white/10 rounded-lg px-4 py-3 text-white
+                      className="w-full bg-[#0a0a14] border border-white/10 rounded-xl px-4 py-3.5 text-white
                                  text-sm placeholder:text-gray-500 focus:outline-none focus:border-orange-500
                                  focus:ring-2 focus:ring-orange-500/20 transition-all duration-200 resize-none"
                     />
                   </div>
 
                   {/* Trust tags */}
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2.5">
                     {['Free Site Visit', 'Spot Registration', 'Bank Loan', 'Legal Support'].map(tag => (
                       <span
                         key={tag}
-                        className="bg-orange-500/8 border border-orange-500/20 text-orange-300 text-[10px] font-semibold px-3 py-1 rounded-full"
+                        className="bg-orange-500/8 border border-orange-500/20 text-orange-300 text-[10px] font-semibold px-3 py-1.5 rounded-full"
                       >
                         ✓ {tag}
                       </span>
@@ -306,8 +313,9 @@ export default function Contact() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="btn-gold w-full py-3.5 rounded-lg text-sm font-black tracking-widest uppercase
-                               flex items-center justify-center gap-2 disabled:opacity-50"
+                    className="btn-gold w-full py-3.5 rounded-xl text-sm font-black tracking-widest uppercase
+                               flex items-center justify-center gap-2 disabled:opacity-50
+                               shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 transition-shadow"
                   >
                     {loading
                       ? <span className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" />
@@ -323,13 +331,14 @@ export default function Contact() {
             )}
 
             {/* Quick contact buttons */}
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-4">
               <a
                 href={`tel:${contact.phones[0].replace(/\s/g, '')}`}
                 className="flex items-center gap-3 bg-[#111827] border border-white/10
-                           hover:border-orange-500/40 rounded-xl px-4 py-3.5 transition-all group"
+                           hover:border-orange-500/40 hover:shadow-lg hover:shadow-orange-500/5
+                           rounded-xl px-4 py-4 transition-all group"
               >
-                <div className="w-9 h-9 rounded-lg bg-orange-500/10 border border-orange-500/20 flex items-center justify-center
+                <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center
                                 group-hover:bg-orange-500 transition-colors flex-shrink-0">
                   <Phone size={16} className="text-orange-400 group-hover:text-white transition-colors" />
                 </div>
@@ -341,9 +350,10 @@ export default function Contact() {
               <a
                 href={`mailto:${contact.email}`}
                 className="flex items-center gap-3 bg-[#111827] border border-white/10
-                           hover:border-orange-500/40 rounded-xl px-4 py-3.5 transition-all group"
+                           hover:border-orange-500/40 hover:shadow-lg hover:shadow-orange-500/5
+                           rounded-xl px-4 py-4 transition-all group"
               >
-                <div className="w-9 h-9 rounded-lg bg-orange-500/10 border border-orange-500/20 flex items-center justify-center
+                <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center
                                 group-hover:bg-orange-500 transition-colors flex-shrink-0">
                   <Mail size={16} className="text-orange-400 group-hover:text-white transition-colors" />
                 </div>
@@ -359,9 +369,9 @@ export default function Contact() {
       </div>
 
       {/* ── Address Footer ── */}
-      <div className="border-t border-white/8 py-8 px-4 text-center">
-        <p className="text-orange-400 text-[10px] font-bold tracking-[4px] uppercase mb-2">Registered Office</p>
-        <p className="text-white font-bold text-sm mb-1" style={{ fontFamily: 'Playfair Display, serif' }}>
+      <div className="border-t border-white/8 py-10 px-4 text-center">
+        <p className="text-orange-400 text-[10px] font-bold tracking-[4px] uppercase mb-3">Registered Office</p>
+        <p className="text-white font-bold text-sm mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>
           ABIVYA GROUP
         </p>
         <p className="text-gray-500 text-sm leading-relaxed">

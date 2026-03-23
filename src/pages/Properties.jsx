@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { propertyInfo } from '../data/propertyData';
-import { MapPin, ArrowRight, Shield, Download } from 'lucide-react';
+import { MapPin, ArrowRight, Shield, Download, CheckCircle } from 'lucide-react';
 
 function SectionTitle({ kicker, title, highlight, sub }) {
   return (
@@ -13,13 +13,13 @@ function SectionTitle({ kicker, title, highlight, sub }) {
         {title} <span className="text-orange-400">{highlight}</span>
       </h2>
       {sub && <p className="text-gray-400 text-sm max-w-xl mx-auto mb-2">{sub}</p>}
-      <div className="mx-auto mt-4 w-16 h-[3px] rounded bg-gradient-to-r from-orange-400 to-orange-600" />
+      <div className="mx-auto mt-4 w-20 h-[3px] rounded bg-gradient-to-r from-orange-400 to-orange-600" />
     </div>
   );
 }
 
 export default function Properties() {
-  const { approvalDetails, projectHighlights } = propertyInfo;
+  const { approvalDetails, projectHighlights, rera } = propertyInfo;
 
   const plotTypes = [
     { size: '100 Sq Yds', dim: '25×36 ft', type: 'Standard',  highlight: false },
@@ -32,7 +32,7 @@ export default function Properties() {
   return (
     <div className="bg-[#0d0d1a] min-h-screen pb-20 w-full">
 
-      {/* ── Hero Header ── */}
+      {/* ── Hero ── */}
       <section
         className="relative flex items-start justify-center px-4 text-center overflow-hidden"
         style={{
@@ -48,8 +48,8 @@ export default function Properties() {
             backgroundSize: '40px 40px',
           }}
         />
-        <div className="relative z-10 w-full max-w-2xl mx-auto pt-8 pb-10 flex flex-col items-center gap-3">
-          <div className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/25 px-4 py-1.5 rounded-full">
+        <div className="relative z-10 w-full max-w-2xl mx-auto pt-8 pb-10 flex flex-col items-center gap-4">
+          <div className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/25 px-5 py-2 rounded-full">
             <Shield size={10} className="text-orange-400" />
             <span className="text-orange-400 text-[10px] font-black tracking-[3px] uppercase">Our Offering</span>
           </div>
@@ -71,8 +71,8 @@ export default function Properties() {
       </section>
 
       {/* ── Legal Info Strip ── */}
-      <section className="bg-[#1a1a3e] py-3.5 px-4 sm:px-8 lg:px-12 border-b border-orange-500/10">
-        <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-sm">
+      <section className="bg-[#1a1a3e] py-4 px-4 sm:px-8 lg:px-12 border-b border-orange-500/10">
+        <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-sm">
           <div className="flex items-center gap-2">
             <Shield size={13} className="text-orange-400" />
             <span className="text-gray-300"><span className="text-orange-400 font-bold">LP No.:</span> 102/2025/H</span>
@@ -82,12 +82,19 @@ export default function Properties() {
           <span className="text-gray-700 hidden sm:block">|</span>
           <span className="text-gray-300"><span className="text-orange-400 font-bold">Village:</span> {approvalDetails.village}</span>
           <span className="text-gray-700 hidden sm:block">|</span>
-          <span className="text-gray-300"><span className="text-orange-400 font-bold">Mandal:</span> {approvalDetails.mandal}</span>
+          <a
+            href={rera.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 text-green-300 hover:text-green-200 transition-colors"
+          >
+            <span className="font-bold text-green-400">RERA Regd. No:</span> {rera.registrationNo}
+          </a>
         </div>
       </section>
 
       {/* ── Main Content ── */}
-      <div className="px-4 sm:px-8 lg:px-12 py-14 sm:py-20">
+      <div className="px-4 sm:px-8 lg:px-12 py-16 sm:py-24">
 
         {/* ══ MASTER PLAN ══ */}
         <SectionTitle
@@ -97,10 +104,10 @@ export default function Properties() {
           sub={`Plan in ${approvalDetails.syNo} of ${approvalDetails.village}, ${approvalDetails.mandal}, ${approvalDetails.district}`}
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start mb-16 sm:mb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-start mb-20 sm:mb-24">
 
           {/* Left — Schematic Map */}
-          <div className="bg-[#0a0a14] border border-orange-500/20 rounded-2xl overflow-hidden">
+          <div className="bg-[#0a0a14] border border-orange-500/20 rounded-2xl overflow-hidden hover:border-orange-500/40 transition-colors">
             <div className="bg-orange-500/10 px-5 py-4 border-b border-orange-500/20 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <Shield size={16} className="text-orange-400" />
@@ -108,7 +115,7 @@ export default function Properties() {
               </div>
               <span className="text-gray-500 text-xs">Schematic</span>
             </div>
-            <div className="p-5">
+            <div className="p-5 sm:p-6">
               <svg viewBox="0 0 400 320" className="w-full rounded-xl" style={{ background: '#0d1a2e' }}>
                 <rect x="0" y="0" width="400" height="32" fill="#374151" />
                 <rect x="0" y="14" width="400" height="4" fill="#fbbf24" opacity="0.6" />
@@ -159,14 +166,14 @@ export default function Properties() {
                 <circle cx="360" cy="116" r="13" fill="none" stroke="#374151" strokeWidth="1" />
               </svg>
 
-              <div className="mt-4 grid grid-cols-3 gap-2">
+              <div className="mt-4 grid grid-cols-3 gap-3">
                 {[
                   { color: 'bg-blue-900/60 border-blue-500/50',   label: 'Plot Blocks'   },
                   { color: 'bg-green-900/60 border-green-500/50', label: 'Park / Reserve' },
                   { color: 'bg-amber-900/60 border-amber-500/50', label: 'CC Roads'       },
                 ].map(l => (
-                  <div key={l.label} className={`${l.color} border rounded-lg py-1.5 px-2 text-center`}>
-                    <p className="text-gray-300 text-xs">{l.label}</p>
+                  <div key={l.label} className={`${l.color} border rounded-lg py-2 px-2 text-center`}>
+                    <p className="text-gray-300 text-xs font-medium">{l.label}</p>
                   </div>
                 ))}
               </div>
@@ -186,7 +193,7 @@ export default function Properties() {
               Layout <span className="text-orange-400">Features</span>
             </h3>
 
-            <div className="bg-[#0a0a14] border border-orange-500/15 rounded-2xl overflow-hidden mb-6">
+            <div className="bg-[#0a0a14] border border-orange-500/15 rounded-2xl overflow-hidden mb-7">
               {[
                 { label: 'Project',     value: 'NIMZ CITY' },
                 { label: 'Location',    value: 'Kohir, Sangareddy District' },
@@ -200,7 +207,7 @@ export default function Properties() {
               ].map((row, i, arr) => (
                 <div
                   key={row.label}
-                  className={`flex items-start gap-4 px-5 py-3.5 ${i !== arr.length - 1 ? 'border-b border-white/5' : ''}`}
+                  className={`flex items-start gap-4 px-5 py-4 hover:bg-white/[0.02] transition-colors ${i !== arr.length - 1 ? 'border-b border-white/5' : ''}`}
                 >
                   <span className="text-gray-500 text-sm w-28 flex-shrink-0">{row.label}</span>
                   <span className="text-orange-400 font-semibold text-sm leading-snug">{row.value}</span>
@@ -208,17 +215,32 @@ export default function Properties() {
               ))}
             </div>
 
-            <div className="flex flex-wrap gap-2 sm:gap-3">
-              <span className="bg-orange-500/20 border border-orange-500/40 text-orange-300 text-xs font-bold px-4 py-2 rounded-full">
+            <div className="flex flex-wrap gap-3 mb-8">
+              <span className="bg-orange-500/20 border border-orange-500/40 text-orange-300 text-xs font-bold px-4 py-2.5 rounded-full">
                 ✅ Spot Registration
               </span>
-              <span className="bg-teal-600/20 border border-teal-500/40 text-teal-300 text-xs font-bold px-4 py-2 rounded-full">
+              <span className="bg-teal-600/20 border border-teal-500/40 text-teal-300 text-xs font-bold px-4 py-2.5 rounded-full">
                 🏦 Bank Loan Available
               </span>
-              <span className="bg-blue-600/20 border border-blue-500/40 text-blue-300 text-xs font-bold px-4 py-2 rounded-full">
+              <span className="bg-blue-600/20 border border-blue-500/40 text-blue-300 text-xs font-bold px-4 py-2.5 rounded-full">
                 📋 DTCP Approved
               </span>
+              <a
+                href={rera.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-green-600/20 border border-green-500/40 text-green-300 text-xs font-bold px-4 py-2.5 rounded-full hover:bg-green-600/30 transition-colors"
+              >
+                🏛️ RERA Registered
+              </a>
             </div>
+
+            <Link
+              to="/contact"
+              className="btn-gold inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl text-sm font-bold tracking-wider uppercase shadow-lg shadow-orange-500/25"
+            >
+              Enquire About This Project <ArrowRight size={15} />
+            </Link>
           </div>
         </div>
 
@@ -230,35 +252,35 @@ export default function Properties() {
           sub="Select the plot size that best fits your dream home and budget"
         />
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-16 sm:mb-20">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5 mb-20 sm:mb-24">
           {plotTypes.map(plot => (
             <div
               key={plot.size}
-              className={`rounded-2xl p-4 sm:p-5 text-center card-hover border transition-all ${
+              className={`rounded-2xl p-5 sm:p-7 text-center border transition-all duration-300 hover:-translate-y-1 ${
                 plot.highlight
-                  ? 'bg-orange-500 border-orange-400 shadow-lg shadow-orange-500/30'
-                  : 'bg-[#0a0a14] border-orange-500/20 hover:border-orange-500/50'
+                  ? 'bg-orange-500 border-orange-400 shadow-xl shadow-orange-500/40'
+                  : 'bg-[#0a0a14] border-orange-500/20 hover:border-orange-500/60 hover:shadow-xl hover:shadow-orange-500/10'
               }`}
             >
               {plot.highlight && (
-                <span className="block text-xs font-black mb-3 text-orange-900 bg-white/20 rounded-full px-2 py-0.5">
+                <span className="block text-xs font-black mb-4 text-orange-900 bg-white/25 rounded-full px-3 py-1">
                   ★ POPULAR
                 </span>
               )}
               <p
-                className={`text-xl sm:text-2xl font-black mb-1.5 ${plot.highlight ? 'text-white' : 'text-orange-400'}`}
+                className={`text-xl sm:text-2xl font-black mb-2 ${plot.highlight ? 'text-white' : 'text-orange-400'}`}
                 style={{ fontFamily: 'Playfair Display, serif' }}
               >
                 {plot.size}
               </p>
-              <p className={`text-xs mb-1.5 ${plot.highlight ? 'text-orange-100' : 'text-gray-500'}`}>{plot.dim}</p>
-              <p className={`text-xs font-bold mb-4 ${plot.highlight ? 'text-white' : 'text-gray-400'}`}>{plot.type}</p>
+              <p className={`text-sm mb-1.5 font-medium ${plot.highlight ? 'text-orange-100' : 'text-gray-400'}`}>{plot.dim}</p>
+              <p className={`text-xs font-bold mb-5 tracking-wider uppercase ${plot.highlight ? 'text-white/80' : 'text-gray-500'}`}>{plot.type}</p>
               <Link
                 to="/contact"
-                className={`block text-xs font-bold py-2 rounded-lg transition-all ${
+                className={`block text-xs font-bold py-2.5 rounded-xl transition-all ${
                   plot.highlight
-                    ? 'bg-white text-orange-600 hover:bg-orange-50'
-                    : 'bg-orange-500/20 text-orange-400 hover:bg-orange-500/30'
+                    ? 'bg-white text-orange-600 hover:bg-orange-50 shadow-md'
+                    : 'bg-orange-500/20 text-orange-400 hover:bg-orange-500/30 hover:text-orange-300'
                 }`}
               >
                 Enquire Now
@@ -274,13 +296,15 @@ export default function Properties() {
           highlight="Highlights"
         />
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
           {projectHighlights.map((item, i) => (
             <div
               key={i}
-              className="bg-[#0a0a14] border border-orange-500/20 rounded-xl p-4 sm:p-5 flex items-center gap-3 card-hover group hover:border-orange-500/50 transition-all"
+              className="bg-[#0a0a14] border border-orange-500/20 rounded-xl p-5 sm:p-6 flex items-center gap-4
+                         hover:border-orange-500/50 hover:bg-[#111827] hover:shadow-lg hover:shadow-orange-500/5
+                         hover:-translate-y-0.5 transition-all duration-200 group"
             >
-              <span className="text-2xl flex-shrink-0">{item.icon}</span>
+              <span className="text-2xl sm:text-3xl flex-shrink-0 group-hover:scale-110 transition-transform duration-200">{item.icon}</span>
               <p className="text-gray-300 text-sm font-medium group-hover:text-orange-400 transition-colors leading-snug">
                 {item.title}
               </p>
@@ -291,32 +315,66 @@ export default function Properties() {
       </div>
 
       {/* ── CTA Banner ── */}
-      <section className="bg-orange-500 py-12 sm:py-14 px-4 text-center">
+      <section className="bg-orange-500 py-14 sm:py-18 px-4 sm:px-8 lg:px-12 text-center">
         <p className="text-orange-100 text-xs tracking-[4px] uppercase font-bold mb-4">Limited Plots Available</p>
         <h2
-          className="text-3xl sm:text-4xl font-black text-white mb-3"
+          className="text-3xl sm:text-4xl font-black text-white mb-4"
           style={{ fontFamily: 'Playfair Display, serif' }}
         >
           Ready to Invest in NIMZ CITY?
         </h2>
-        <p className="text-orange-100 mb-8 text-sm">Spot Registration Available · Bank Loan Available · DTCP Approved</p>
+        <p className="text-orange-100 mb-10 text-sm">Spot Registration Available · Bank Loan Available · DTCP Approved</p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             to="/contact"
-            className="inline-flex items-center gap-2 bg-white text-orange-600 font-black px-8 py-3 rounded-xl text-sm tracking-wider uppercase hover:bg-orange-50 transition-colors shadow-lg"
+            className="inline-flex items-center gap-2 bg-white text-orange-600 font-black px-10 py-3.5 rounded-xl text-sm tracking-wider uppercase hover:bg-orange-50 transition-colors shadow-lg w-full sm:w-auto justify-center"
           >
             Book a Free Site Visit <ArrowRight size={16} />
           </Link>
           <a
-            href="/Nimz City (1).pdf"
+            href="/ABIVYA GROUP'S NIMZ CITY FLYER.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-orange-600/80 text-white font-black px-8 py-3 rounded-xl text-sm tracking-wider uppercase hover:bg-orange-700 transition-colors border border-white/20"
+            className="inline-flex items-center gap-2 bg-orange-600/80 text-white font-black px-10 py-3.5 rounded-xl text-sm tracking-wider uppercase hover:bg-orange-700 transition-colors border border-white/20 w-full sm:w-auto justify-center"
           >
             <Download size={16} />
             Download Brochure
           </a>
         </div>
+      </section>
+
+      {/* ── RERA Compliance Section ── */}
+      <section className="bg-[#0a0a14] border-t border-green-500/10 px-4 sm:px-8 lg:px-12 py-10">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-8">
+          <div className="flex-shrink-0 flex flex-col items-center justify-center bg-green-600/10 border border-green-500/25 rounded-2xl px-6 py-5 min-w-[160px] text-center">
+            <p className="text-green-400 text-[10px] font-black tracking-[3px] uppercase mb-2">RERA Registered</p>
+            <p className="text-white font-black text-lg tracking-wider">{rera.registrationNo}</p>
+            <p className="text-green-400/70 text-[9px] tracking-widest uppercase mt-1">{rera.shortAuthority}</p>
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-green-400 text-xs font-bold tracking-[3px] uppercase mb-2">
+              {rera.authority}
+            </p>
+            <p className="text-gray-300 text-sm leading-relaxed mb-3">
+              <span className="text-white font-semibold">NIMZ CITY</span> is registered under the Real Estate (Regulation and Development) Act, 2016.
+              Registration valid from <span className="text-orange-400 font-semibold">{rera.validFrom}</span> to{' '}
+              <span className="text-orange-400 font-semibold">{rera.validUpto}</span>.
+              Promoted by <span className="text-white font-semibold">{rera.promoter}</span>, represented by{' '}
+              <span className="text-white font-semibold">{rera.representative}</span>.
+            </p>
+            <a
+              href={rera.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-green-400 hover:text-green-300 text-xs font-bold tracking-wider underline underline-offset-4 transition-colors"
+            >
+              🔗 Verify on {rera.website}
+            </a>
+          </div>
+        </div>
+        <p className="text-gray-600 text-xs mt-6 leading-relaxed border-t border-white/5 pt-5">
+          As per Section 37 of the Real Estate (Regulation &amp; Development) Act, 2016 — all advertisements must display the RERA Registration Number and {rera.shortAuthority} website URL. This project's RERA Registration No. is <span className="text-gray-400 font-semibold">{rera.registrationNo}</span>. Visit <a href={rera.website} target="_blank" rel="noopener noreferrer" className="text-green-400 underline underline-offset-2">{rera.website}</a> for details.
+        </p>
       </section>
     </div>
   );
