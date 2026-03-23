@@ -18,7 +18,7 @@ function SectionTitle({ kicker, title, highlight, sub }) {
   );
 }
 
-export default function Properties() {
+export default function projects() {
   const { approvalDetails, projectHighlights, rera } = propertyInfo;
 
   const plotTypes = [

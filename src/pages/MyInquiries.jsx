@@ -213,7 +213,7 @@ export default function MyInquiries() {
                   Submit Enquiry <ArrowRight size={15} />
                 </Link>
                 <Link
-                  to="/properties"
+                  to="/projects"
                   className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl text-sm font-bold tracking-widest uppercase border border-orange-500/30 text-orange-400 hover:bg-orange-500/10 transition-all"
                 >
                   View Plots <ChevronRight size={15} />

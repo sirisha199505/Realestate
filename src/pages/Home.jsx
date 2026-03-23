@@ -110,8 +110,8 @@ export default function Home() {
             <Link to="/contact" className="btn-gold px-8 py-3.5 rounded-xl text-sm font-bold tracking-wider uppercase flex items-center gap-2 shadow-lg shadow-orange-500/30">
               Book a FREE Site Visit <ArrowRight size={15} />
             </Link>
-            <Link to="/properties" className="btn-outline-gold px-8 py-3.5 rounded-xl text-sm font-bold tracking-wider uppercase">
-              View Properties
+            <Link to="/projects" className="btn-outline-gold px-8 py-3.5 rounded-xl text-sm font-bold tracking-wider uppercase">
+              View projects
             </Link>
             <a
               href="/ABIVYA GROUP'S NIMZ CITY FLYER.pdf"
@@ -186,7 +186,7 @@ export default function Home() {
                 </div>
               ))}
             </div>
-            <Link to="/properties" className="btn-gold px-8 py-3.5 rounded-xl text-sm font-bold tracking-wider uppercase inline-flex items-center gap-2 shadow-lg shadow-orange-500/25">
+            <Link to="/projects" className="btn-gold px-8 py-3.5 rounded-xl text-sm font-bold tracking-wider uppercase inline-flex items-center gap-2 shadow-lg shadow-orange-500/25">
               Explore Layout <ArrowRight size={15} />
             </Link>
           </div>
