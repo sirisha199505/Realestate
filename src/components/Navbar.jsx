@@ -49,7 +49,7 @@ function NcIcon({ size = 26 }) {
 
 const NAV_LINKS = [
   { to: '/',            label: 'Home' },
-  { to: '/properties',  label: 'Properties' },
+  { to: '/projects',  label: 'projects' },
   { to: '/layout-plan', label: 'Layout Plan' },
   { to: '/gallery',     label: 'Gallery' },
   { to: '/location',    label: 'Location' },
