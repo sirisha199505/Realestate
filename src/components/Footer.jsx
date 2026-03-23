@@ -18,9 +18,13 @@ export default function Footer() {
           <p className="text-gray-400 text-sm leading-relaxed mb-4">
             Your trusted real estate partner. Building dreams with integrity, trust, and commitment.
           </p>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 mb-2">
             <span className="bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded">DTCP</span>
             <span className="text-gray-400 text-xs">{approvalDetails.lpNo}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">RERA</span>
+            <span className="text-green-400 text-xs font-semibold">P01100010688</span>
           </div>
         </div>
 
@@ -54,6 +58,10 @@ export default function Footer() {
             <li className="flex items-start gap-2">
               <span className="text-orange-500 mt-0.5">›</span>
               <span>DTCP Approved Residential Villa Plots</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-green-500 mt-0.5">›</span>
+              <span className="text-green-400">RERA Regd. No. P01100010688</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-orange-500 mt-0.5">›</span>

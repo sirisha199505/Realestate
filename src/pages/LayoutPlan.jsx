@@ -128,6 +128,7 @@ function PlotModal({ plot, onClose, onUpdate, isAdmin }) {
               { label: 'Facing',      value: `${plot.facing} Facing` },
               { label: 'Road Width',  value: "40' / 33' CC Road" },
               { label: 'Approval',    value: 'DTCP Approved' },
+              { label: 'RERA No.',    value: 'P01100010688' },
               { label: 'LP No.',      value: '102/2025/H' },
             ].map(row => (
               <div key={row.label} className="bg-[#0a0a14] border border-orange-500/10 rounded-xl px-4 py-3">
@@ -574,8 +575,11 @@ export default function LayoutPlan() {
           style={{ fontFamily: 'Playfair Display, serif' }}>
           Layout <span className="text-orange-400">Plan</span>
         </h1>
-        <p className="text-gray-400 text-sm sm:text-base mb-2 font-medium">
+        <p className="text-gray-400 text-sm sm:text-base mb-1 font-medium">
           ABIVYA GROUP DTCP Approved Layout
+        </p>
+        <p className="text-green-400 text-xs font-semibold mb-2">
+          RERA Regd. No. P01100010688
         </p>
         <p className="text-gray-500 text-xs sm:text-sm">
           Plan in Sy.No. 65/P of Venkatapur Grampanchayat, Kohir Mandal, Sangareddy District

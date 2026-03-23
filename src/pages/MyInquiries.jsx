@@ -196,6 +196,7 @@ export default function MyInquiries() {
                   { icon: '✅', text: 'Spot Registration' },
                   { icon: '🏦', text: 'Bank Loan Available' },
                   { icon: '📋', text: 'DTCP Approved' },
+                  { icon: '🏛️', text: 'RERA Regd. No. P01100010688' },
                   { icon: '🏠', text: 'Free Site Visit' },
                 ].map(f => (
                   <span key={f.text} className="bg-[#0d0d1a] border border-white/10 text-gray-300 text-xs px-3.5 py-1.5 rounded-full font-medium hover:border-orange-500/30 transition-colors">

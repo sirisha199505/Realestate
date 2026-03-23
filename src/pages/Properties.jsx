@@ -62,6 +62,9 @@ export default function Properties() {
           <p className="text-gray-300 text-base sm:text-lg">
             DTCP Approved Residential Villa Plots Beside NIMZ
           </p>
+          <p className="text-green-400 text-xs font-semibold">
+            RERA Regd. No. P01100010688
+          </p>
           <div className="flex items-center justify-center gap-2 text-gray-400 text-sm">
             <MapPin size={14} className="text-orange-400" />
             <span>Kohir, Sangareddy District, Telangana</span>
@@ -225,6 +228,9 @@ export default function Properties() {
               <span className="bg-blue-600/20 border border-blue-500/40 text-blue-300 text-xs font-bold px-4 py-2.5 rounded-full">
                 📋 DTCP Approved
               </span>
+              <span className="bg-green-600/10 border border-green-500/30 text-green-400 text-xs font-semibold px-4 py-2.5 rounded-full">
+                RERA Regd. No. P01100010688
+              </span>
               <a
                 href={rera.website}
                 target="_blank"
@@ -323,7 +329,8 @@ export default function Properties() {
         >
           Ready to Invest in NIMZ CITY?
         </h2>
-        <p className="text-orange-100 mb-10 text-sm">Spot Registration Available · Bank Loan Available · DTCP Approved</p>
+        <p className="text-orange-100 mb-2 text-sm">Spot Registration Available · Bank Loan Available · DTCP Approved</p>
+        <p className="text-green-200 mb-10 text-xs font-semibold">RERA Regd. No. P01100010688</p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             to="/contact"

@@ -32,7 +32,7 @@ export default function Home() {
           backgroundPosition: 'center',
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0d0d1a]/95 via-[#0d0d1a]/80 to-[#0d0d1a]/90" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0d0d1a]/70 via-[#0d0d1a]/50 to-[#0d0d1a]/60" />
         <div className="relative z-10 text-center px-4 sm:px-6 max-w-4xl mx-auto py-12">
           <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
             <div className="inline-flex items-center gap-2 bg-orange-500/20 border border-orange-500/40 px-5 py-2 rounded-full">
@@ -87,8 +87,11 @@ export default function Home() {
           <p className="text-orange-300 text-base sm:text-lg italic font-medium mb-1">
             "NIMZ Advantage, Assured Growth"
           </p>
-          <p className="text-gray-400 text-sm font-medium mb-8">
+          <p className="text-gray-400 text-sm font-medium mb-1">
             DTCP Approved Residential Villa Plots Beside NIMZ
+          </p>
+          <p className="text-green-400 text-xs font-semibold mb-8">
+            RERA Regd. No. P01100010688
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-10">
@@ -157,6 +160,9 @@ export default function Home() {
               <span className="text-white">ABIVYA GROUP</span><br />
               <span className="text-orange-400">DTCP Approved Layout</span>
             </h2>
+            <p className="text-green-400 text-xs font-semibold mb-2">
+              RERA Regd. No. P01100010688
+            </p>
             <p className="text-gray-400 leading-relaxed mb-4 text-sm sm:text-[15px]">
               NIMZ CITY is a premium DTCP approved residential villa plots project by Abivya Group, strategically located
               beside the National Investment and Manufacturing Zone (NIMZ) at Kohir, Sangareddy District, Telangana.
@@ -168,6 +174,7 @@ export default function Home() {
             <div className="space-y-3 mb-9">
               {[
                 'DTCP Approved — LP No. 102/2025/H',
+                'RERA Regd. No. P01100010688',
                 'Spot Registration Available',
                 'Bank Loan Facility Available',
                 'Vaasthu Compliant Plots',

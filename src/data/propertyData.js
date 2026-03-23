@@ -57,7 +57,7 @@ export const propertyInfo = {
   ],
 
   contact: {
-    phones: ["+91 98765 43210", "+91 87654 32109"],
+    phones: ["+91 9996999872"],
     email: "info@abivyagroup.com",
     officeAddress:
       "8-2-293/82/HE/82&83, Flat No 102, Serenade Apartment, Road Number 69, Nandagiri Hills, Jubilee Hills, Hyderabad.",

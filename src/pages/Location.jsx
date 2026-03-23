@@ -30,6 +30,9 @@ export default function Location() {
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight" style={{ fontFamily: 'Playfair Display, serif' }}>
             Location <span className="text-orange-400">Map</span>
           </h1>
+          <span className="bg-orange-500/10 border border-orange-500/30 text-orange-300 text-xs font-black px-6 py-2 rounded-full tracking-[3px] uppercase">
+            Project - 1
+          </span>
           <p className="flex items-center justify-center gap-2 text-gray-400 text-sm">
             <MapPin size={14} className="text-orange-400" />
             NIMZ CITY, Kohir, Sangareddy District, Telangana
@@ -89,7 +92,7 @@ export default function Location() {
             </div>
 
             {/* Google Maps */}
-            <div className="rounded-2xl overflow-hidden border border-orange-500/20 shadow-xl mb-6">
+            <div className="rounded-2xl overflow-hidden border border-orange-500/20 shadow-xl mb-4">
               <iframe
                 title="NIMZ CITY Location"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15222.345678901234!2d77.88260000000001!3d17.884600000000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcbf0b0b0b0b0b1%3A0xabcdef1234567890!2sKohir%2C%20Sangareddy%2C%20Telangana!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
