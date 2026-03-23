@@ -7,10 +7,10 @@ export default function Location() {
   const nearbyBrands = ['Mahindra', 'Hatsun', 'Hyundai', 'MRF', 'Pepsi', 'Toshiba'];
 
   return (
-    <div className="bg-[#0d0d1a] min-h-screen pb-24">
+    <div className="bg-[#0d0d1a] min-h-screen pb-24 w-full">
       {/* Header */}
       <section
-        className="relative py-16 sm:py-20 px-4 text-center overflow-hidden"
+        className="relative flex items-center justify-center px-4 text-center overflow-hidden"
         style={{ background: 'linear-gradient(160deg, #070714 0%, #0d0d1a 55%, #110800 100%)' }}
       >
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-40 bg-orange-500/6 rounded-full blur-3xl pointer-events-none" />
@@ -20,15 +20,15 @@ export default function Location() {
             backgroundSize: '40px 40px',
           }}
         />
-        <div className="relative max-w-2xl mx-auto">
-          <div className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/25 px-4 py-1.5 rounded-full mb-5">
+        <div className="relative z-10 w-full max-w-2xl mx-auto pt-8 pb-10 flex flex-col items-center gap-3 text-center">
+          <div className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/25 px-4 py-1.5 rounded-full">
             <MapPin size={10} className="text-orange-400" />
             <span className="text-orange-400 text-[10px] font-black tracking-[3px] uppercase">Find Us</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-4 leading-tight" style={{ fontFamily: 'Playfair Display, serif' }}>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight" style={{ fontFamily: 'Playfair Display, serif' }}>
             Location <span className="text-orange-400">Map</span>
           </h1>
-          <p className="text-gray-400 flex items-center justify-center gap-2 text-sm">
+          <p className="flex items-center justify-center gap-2 text-gray-400 text-sm">
             <MapPin size={14} className="text-orange-400" />
             NIMZ CITY, Kohir, Sangareddy District, Telangana
           </p>
@@ -37,7 +37,7 @@ export default function Location() {
       </section>
 
       {/* Map + Advantages — Map LEFT, Advantages RIGHT */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-20 sm:py-24">
+      <section className="px-4 sm:px-8 lg:px-12 py-12 sm:py-16">
         <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-start">
 
           {/* LEFT — Location Map */}
@@ -46,49 +46,48 @@ export default function Location() {
               <span className="text-orange-400">Location</span> Map
             </h2>
 
-            {/* Embedded Google Map placeholder styled as actual map */}
-            <div className="rounded-2xl overflow-hidden border border-orange-500/20 shadow-2xl mb-6">
+            {/* Visual Map Card */}
+            <div className="rounded-2xl overflow-hidden border border-orange-500/20 shadow-2xl mb-6 bg-[#0d1a2e]">
+
+              {/* Card header */}
               <div className="bg-[#0a0a14] border-b border-orange-500/10 px-4 py-3 flex items-center gap-3">
                 <MapPin size={16} className="text-orange-400" />
                 <span className="text-gray-300 text-sm font-medium">NIMZ CITY — Kohir, Sangareddy</span>
               </div>
-              {/* Visual map representation */}
-              <div className="relative bg-[#12203a] min-h-80 p-6">
-                {/* Roads */}
-                <div className="absolute top-0 left-0 right-0 h-10 bg-gray-700/70 flex items-center justify-center">
-                  <span className="text-yellow-300 text-xs font-bold tracking-wider">NH 65 — MUMBAI HIGHWAY</span>
-                </div>
-                <div className="absolute top-10 bottom-0 left-1/2 w-8 bg-gray-600/60 flex items-center justify-center">
-                  <span className="text-gray-400 text-xs writing-mode-vertical" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
-                    State Highway
-                  </span>
-                </div>
-                {/* Landmarks */}
-                <div className="pt-14 grid grid-cols-2 gap-4 relative z-10">
-                  {[
-                    { name: 'NIMZ', color: 'bg-blue-600', pos: 'top-16 right-8', icon: '🏭' },
-                    { name: 'SITE', color: 'bg-orange-500', pos: 'top-24 left-8', icon: '📍' },
-                    { name: 'Kohir X Road', color: 'bg-green-600', pos: '', icon: '🔀' },
-                    { name: 'Woxsen Univ', color: 'bg-purple-600', pos: '', icon: '🎓' },
-                    { name: 'IIT Kandi', color: 'bg-red-600', pos: '', icon: '🏛️' },
-                    { name: 'Sangareddy', color: 'bg-teal-600', pos: '', icon: '🏙️' },
-                  ].map(l => (
-                    <div key={l.name} className={`${l.color}/20 border border-white/10 rounded-lg p-2 flex items-center gap-2`}>
-                      <span className="text-lg">{l.icon}</span>
-                      <div>
-                        <p className="text-white text-xs font-bold">{l.name}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                {/* Absolute positioned site marker */}
-                <div className="absolute top-20 left-12 z-20 flex flex-col items-center">
-                  <div className="bg-orange-500 text-white text-xs font-black px-3 py-1 rounded-full shadow-lg shadow-orange-500/50 animate-pulse">
-                    📍 NIMZ CITY
+
+              {/* NH 65 Highway bar — full width, no overlap */}
+              <div className="w-full bg-gray-700 py-2.5 flex items-center justify-center border-b border-yellow-500/20">
+                <span className="text-yellow-300 text-xs font-black tracking-[2px] uppercase">
+                  ← NH 65 — MUMBAI HIGHWAY →
+                </span>
+              </div>
+
+              {/* NIMZ CITY site pin */}
+              <div className="flex justify-center py-4 border-b border-white/5">
+                <div className="flex flex-col items-center gap-1">
+                  <div className="bg-orange-500 text-white text-xs font-black px-4 py-1.5 rounded-full shadow-lg shadow-orange-500/40 animate-pulse">
+                    📍 NIMZ CITY — OUR SITE
                   </div>
-                  <div className="w-px h-4 bg-orange-500" />
-                  <div className="w-3 h-3 rounded-full bg-orange-500" />
+                  <div className="w-px h-3 bg-orange-500/60" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-orange-500" />
                 </div>
+              </div>
+
+              {/* Landmark grid — 3 columns, no overlap */}
+              <div className="grid grid-cols-3 gap-2 p-4">
+                {[
+                  { name: 'NIMZ Zone',    icon: '🏭', color: 'border-blue-500/40   bg-blue-600/10   text-blue-300'   },
+                  { name: 'Kohir X Road', icon: '🔀', color: 'border-green-500/40  bg-green-600/10  text-green-300'  },
+                  { name: 'Woxsen Univ',  icon: '🎓', color: 'border-purple-500/40 bg-purple-600/10 text-purple-300' },
+                  { name: 'IIT Kandi',   icon: '🏛️', color: 'border-red-500/40    bg-red-600/10    text-red-300'    },
+                  { name: 'Sangareddy',  icon: '🏙️', color: 'border-teal-500/40   bg-teal-600/10   text-teal-300'   },
+                  { name: 'Food SEZ',    icon: '🏗️', color: 'border-amber-500/40  bg-amber-600/10  text-amber-300'  },
+                ].map(l => (
+                  <div key={l.name} className={`border rounded-xl p-2 flex flex-col items-center gap-1 text-center ${l.color}`}>
+                    <span className="text-base">{l.icon}</span>
+                    <p className="text-white text-[10px] font-bold leading-tight">{l.name}</p>
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -174,8 +173,8 @@ export default function Location() {
       </section>
 
       {/* Site Address */}
-      <section className="bg-[#0a0a14] border-t border-orange-500/10 py-10 px-4">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="bg-[#0a0a14] border-t border-orange-500/10 py-10 px-4 sm:px-8 lg:px-12">
+        <div className="text-center">
           <p className="text-orange-400 text-xs tracking-[4px] uppercase font-bold mb-4">Office Address</p>
           <p className="text-white font-bold text-lg mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>ABIVYA GROUP</p>
           <p className="text-gray-400 text-sm leading-relaxed">

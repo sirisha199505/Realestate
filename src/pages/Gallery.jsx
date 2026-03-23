@@ -20,10 +20,10 @@ export default function Gallery() {
   };
 
   return (
-    <div className="bg-[#0d0d1a] min-h-screen pb-24">
+    <div className="bg-[#0d0d1a] min-h-screen pb-24 w-full">
       {/* Header */}
       <section
-        className="relative py-16 sm:py-20 px-4 text-center overflow-hidden"
+        className="relative flex items-center justify-center px-4 text-center overflow-hidden"
         style={{
           backgroundImage: `url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1920&q=80')`,
           backgroundSize: 'cover',
@@ -37,11 +37,11 @@ export default function Gallery() {
             backgroundSize: '40px 40px',
           }}
         />
-        <div className="relative z-10 max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/25 px-4 py-1.5 rounded-full mb-5">
+        <div className="relative z-10 w-full max-w-2xl mx-auto pt-8 pb-10 flex flex-col items-center gap-3 text-center">
+          <div className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/25 px-4 py-1.5 rounded-full">
             <span className="text-orange-400 text-[10px] font-black tracking-[3px] uppercase">Visual Tour</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-4 leading-tight" style={{ fontFamily: 'Playfair Display, serif' }}>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight" style={{ fontFamily: 'Playfair Display, serif' }}>
             Project <span className="text-orange-400">Gallery</span>
           </h1>
           <p className="text-gray-300 text-sm sm:text-base">Explore NIMZ CITY — Premium Villa Plots at Kohir, Sangareddy</p>
@@ -50,7 +50,7 @@ export default function Gallery() {
       </section>
 
       {/* Filter Tabs */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+      <div className="px-4 sm:px-8 lg:px-12 py-8">
         <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-8 sm:mb-10">
           {CATEGORIES.map(cat => (
             <button
@@ -68,19 +68,17 @@ export default function Gallery() {
         </div>
 
         {/* Gallery Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 lg:gap-4">
-          {filtered.map((img, i) => (
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+          {filtered.map((img) => (
             <div
               key={img.id}
-              className={`gallery-item group cursor-pointer rounded-xl overflow-hidden border border-orange-500/10 hover:border-orange-500/50 transition-all relative ${
-                i === 0 ? 'col-span-2 h-40 sm:h-64 lg:h-80' : 'h-32 sm:h-40 lg:h-44'
-              }`}
+              className="gallery-item group cursor-pointer rounded-xl overflow-hidden border border-orange-500/10 hover:border-orange-500/50 transition-all relative h-44 sm:h-52 lg:h-56"
               onClick={() => setLightbox(img)}
             >
               <img
                 src={img.url}
                 alt={img.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
                 <p className="text-white text-xs font-semibold">{img.title}</p>

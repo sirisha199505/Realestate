@@ -42,11 +42,11 @@ export default function MyInquiries() {
   const myLeads = getClientLeads(clientUser.email);
 
   return (
-    <div className="bg-[#0d0d1a] min-h-screen pb-24">
+    <div className="bg-[#0d0d1a] min-h-screen pb-24 w-full">
 
       {/* ══ HERO HEADER ══ */}
       <section
-        className="relative py-10 sm:py-14 px-4 text-center overflow-hidden"
+        className="relative py-12 sm:py-16 px-4 text-center overflow-hidden"
         style={{ background: 'linear-gradient(160deg, #070714 0%, #0d0d1a 55%, #110800 100%)' }}
       >
         {/* Background glows */}

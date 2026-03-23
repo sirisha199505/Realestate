@@ -8,7 +8,7 @@ export default function Footer() {
   return (
     <footer className="bg-[#07070f] border-t border-orange-500/20">
       {/* Main footer */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-12 grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+      <div className="px-4 sm:px-8 lg:px-12 py-10 sm:py-12 grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
         {/* Brand */}
         <div>
           <div className="mb-4">
@@ -102,7 +102,7 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="border-t border-orange-500/10 py-4 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2 text-xs text-gray-500">
+        <div className="px-4 sm:px-8 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-2 text-xs text-gray-500">
           <p>© {new Date().getFullYear()} ABIVYA GROUP. All Rights Reserved.</p>
           <p className="italic text-center text-gray-600 text-xs sm:max-w-xl">
             {propertyInfo.disclaimer}

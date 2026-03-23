@@ -20,7 +20,7 @@ function ClientLayout({ children }) {
       <Navbar />
       {/* Spacer exactly matches fixed navbar height: ~34px strip + 68px bar = 102px, +10 buffer */}
       <div style={{ height: '112px' }} />
-      <main>{children}</main>
+      <main className="w-full">{children}</main>
       <Footer />
     </>
   );

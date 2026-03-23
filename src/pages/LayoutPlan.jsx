@@ -565,10 +565,10 @@ export default function LayoutPlan() {
   };
 
   return (
-    <div className="bg-[#0d0d1a] min-h-screen pb-24">
+    <div className="bg-[#0d0d1a] min-h-screen pb-24 w-full">
 
       {/* ── Page Header ── */}
-      <section className="py-16 sm:py-20 px-4 bg-[#070710] text-center border-b border-orange-500/10">
+      <section className="py-12 sm:py-16 px-4 sm:px-8 lg:px-12 bg-[#070710] text-center border-b border-orange-500/10">
         <p className="text-orange-400 text-xs tracking-[5px] uppercase font-bold mb-3">Interactive Map</p>
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-3"
           style={{ fontFamily: 'Playfair Display, serif' }}>
@@ -593,7 +593,7 @@ export default function LayoutPlan() {
         </div>
       </section>
 
-      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 py-10">
+      <div className="px-4 sm:px-8 lg:px-12 py-10">
 
         {/* ── Stats Strip ── */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
