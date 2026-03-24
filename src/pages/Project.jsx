@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { propertyInfo } from '../data/propertyData';
-import { MapPin, ArrowRight, Shield, Download, CheckCircle } from 'lucide-react';
+import { MapPin, ArrowRight, Shield, Download, CheckCircle, Clock } from 'lucide-react';
 
 function SectionTitle({ kicker, title, highlight, sub }) {
   return (
@@ -18,8 +18,8 @@ function SectionTitle({ kicker, title, highlight, sub }) {
   );
 }
 
-export default function projects() {
-  const { approvalDetails, projectHighlights, rera } = propertyInfo;
+export default function Project() {
+  const { approvalDetails, projectHighlights, rera, locationAdvantages } = propertyInfo;
 
   const plotTypes = [
     { size: '100 Sq Yds', dim: '25×36 ft', type: 'Standard',  highlight: false },
@@ -291,6 +291,35 @@ export default function projects() {
               >
                 Enquire Now
               </Link>
+            </div>
+          ))}
+        </div>
+
+        {/* ══ LOCATION ADVANTAGES ══ */}
+        <SectionTitle
+          kicker="Prime Location"
+          title="Location"
+          highlight="Advantages"
+          sub="Strategically located near key landmarks, highways, and institutions"
+        />
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mb-20 sm:mb-24">
+          {locationAdvantages.map((item, i) => (
+            <div
+              key={i}
+              className="bg-[#0a0a14] border border-orange-500/20 rounded-xl px-5 py-4 flex items-center gap-4
+                         hover:border-orange-500/50 hover:bg-[#111827] hover:shadow-lg hover:shadow-orange-500/5
+                         hover:-translate-y-0.5 transition-all duration-200 group"
+            >
+              <div className="flex-shrink-0 flex items-center justify-center bg-orange-500/10 border border-orange-500/25 rounded-lg w-16 h-12 text-center">
+                <div>
+                  <Clock size={11} className="text-orange-400 mx-auto mb-0.5" />
+                  <p className="text-orange-400 text-[10px] font-black leading-none">{item.time}</p>
+                </div>
+              </div>
+              <p className="text-gray-300 text-sm font-medium group-hover:text-orange-400 transition-colors leading-snug">
+                {item.desc}
+              </p>
             </div>
           ))}
         </div>

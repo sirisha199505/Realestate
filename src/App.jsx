@@ -4,7 +4,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
-import projects from './pages/projects';
+import Project from './pages/Project';
 import Gallery from './pages/Gallery';
 import Location from './pages/Location';
 import Contact from './pages/Contact';
@@ -38,7 +38,7 @@ function App() {
 
           {/* Client routes */}
           <Route path="/" element={<ClientLayout><Home /></ClientLayout>} />
-          <Route path="/projects" element={<ClientLayout><projects /></ClientLayout>} />
+          <Route path="/projects" element={<ClientLayout><Project /></ClientLayout>} />
           <Route path="/gallery" element={<ClientLayout><Gallery /></ClientLayout>} />
           <Route path="/location" element={<ClientLayout><Location /></ClientLayout>} />
           <Route path="/contact" element={<ClientLayout><Contact /></ClientLayout>} />
