@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { propertyInfo } from '../data/propertyData';
-import { MapPin, ArrowRight, Shield, Download, CheckCircle, Clock } from 'lucide-react';
+import { MapPin, ArrowRight, Shield, Download, Clock, FileCheck, Home, Layers } from 'lucide-react';
 
 function SectionTitle({ kicker, title, highlight, sub }) {
   return (
@@ -109,94 +109,49 @@ export default function Project() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-start mb-20 sm:mb-24">
 
-          {/* Left — Schematic Map */}
+          {/* Left — Real Layout Plan Image */}
           <div className="bg-[#0a0a14] border border-orange-500/20 rounded-2xl overflow-hidden hover:border-orange-500/40 transition-colors">
-            <div className="bg-orange-500/10 px-5 py-4 border-b border-orange-500/20 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Shield size={16} className="text-orange-400" />
-                <span className="text-orange-400 font-bold text-sm tracking-wider">LAYOUT PLAN MAP</span>
+            <img
+              src="/layout-plan.png"
+              alt="NIMZ CITY Layout Plan"
+              className="w-full object-contain"
+            />
+            <div className="px-5 py-3 border-t border-orange-500/10 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Shield size={12} className="text-orange-400" />
+                <span className="text-orange-400 text-[11px] font-bold tracking-wider uppercase">DTCP Approved Layout</span>
               </div>
-              <span className="text-gray-500 text-xs">Schematic</span>
-            </div>
-            <div className="p-5 sm:p-6">
-              <svg viewBox="0 0 400 320" className="w-full rounded-xl" style={{ background: '#0d1a2e' }}>
-                <rect x="0" y="0" width="400" height="32" fill="#374151" />
-                <rect x="0" y="14" width="400" height="4" fill="#fbbf24" opacity="0.6" />
-                <text x="200" y="20" textAnchor="middle" fill="#f3f4f6" fontSize="9" fontWeight="bold" letterSpacing="1">
-                  NH 65 — MUMBAI HIGHWAY
-                </text>
-                <rect x="0" y="50" width="400" height="18" fill="#92400e" opacity="0.7" />
-                <text x="200" y="62" textAnchor="middle" fill="#fcd34d" fontSize="7.5" fontWeight="bold">
-                  ← PROPOSED 40 FEET WIDE CC ROAD →
-                </text>
-                <rect x="8" y="76" width="108" height="72" rx="4" fill="#1e3a5f" stroke="#3b82f6" strokeWidth="1.2" />
-                <text x="62" y="106" textAnchor="middle" fill="#93c5fd" fontSize="18" fontWeight="900" opacity="0.4">A</text>
-                <text x="62" y="122" textAnchor="middle" fill="#93c5fd" fontSize="8" fontWeight="bold">BLOCK A</text>
-                <text x="62" y="135" textAnchor="middle" fill="#60a5fa" fontSize="7">16 Plots</text>
-                <rect x="124" y="76" width="108" height="72" rx="4" fill="#1e3a5f" stroke="#3b82f6" strokeWidth="1.2" />
-                <text x="178" y="106" textAnchor="middle" fill="#93c5fd" fontSize="18" fontWeight="900" opacity="0.4">B</text>
-                <text x="178" y="122" textAnchor="middle" fill="#93c5fd" fontSize="8" fontWeight="bold">BLOCK B</text>
-                <text x="178" y="135" textAnchor="middle" fill="#60a5fa" fontSize="7">18 Plots</text>
-                <rect x="240" y="76" width="108" height="72" rx="4" fill="#1e3a5f" stroke="#3b82f6" strokeWidth="1.2" />
-                <text x="294" y="106" textAnchor="middle" fill="#93c5fd" fontSize="18" fontWeight="900" opacity="0.4">C</text>
-                <text x="294" y="122" textAnchor="middle" fill="#93c5fd" fontSize="8" fontWeight="bold">BLOCK C</text>
-                <text x="294" y="135" textAnchor="middle" fill="#60a5fa" fontSize="7">14 Plots</text>
-                <rect x="0" y="155" width="400" height="16" fill="#78350f" opacity="0.7" />
-                <text x="200" y="166" textAnchor="middle" fill="#fcd34d" fontSize="7.5" fontWeight="bold">
-                  ← PROPOSED 33 FEET WIDE CC ROAD →
-                </text>
-                <rect x="8" y="178" width="108" height="72" rx="4" fill="#1e3a5f" stroke="#3b82f6" strokeWidth="1.2" />
-                <text x="62" y="208" textAnchor="middle" fill="#93c5fd" fontSize="18" fontWeight="900" opacity="0.4">D</text>
-                <text x="62" y="224" textAnchor="middle" fill="#93c5fd" fontSize="8" fontWeight="bold">BLOCK D</text>
-                <text x="62" y="237" textAnchor="middle" fill="#60a5fa" fontSize="7">12 Plots</text>
-                <rect x="124" y="178" width="108" height="72" rx="4" fill="#1e3a5f" stroke="#3b82f6" strokeWidth="1.2" />
-                <text x="178" y="208" textAnchor="middle" fill="#93c5fd" fontSize="18" fontWeight="900" opacity="0.4">E</text>
-                <text x="178" y="224" textAnchor="middle" fill="#93c5fd" fontSize="8" fontWeight="bold">BLOCK E</text>
-                <text x="178" y="237" textAnchor="middle" fill="#60a5fa" fontSize="7">12 Plots</text>
-                <rect x="240" y="178" width="108" height="72" rx="4" fill="#14532d" stroke="#22c55e" strokeWidth="1.2" />
-                <text x="294" y="208" textAnchor="middle" fill="#86efac" fontSize="9" fontWeight="bold">SITE</text>
-                <text x="294" y="221" textAnchor="middle" fill="#86efac" fontSize="9" fontWeight="bold">RESERVE</text>
-                <text x="294" y="235" textAnchor="middle" fill="#4ade80" fontSize="7.5">Park / Open Space</text>
-                <rect x="0" y="258" width="400" height="30" fill="#7c2d12" opacity="0.5" />
-                <text x="200" y="277" textAnchor="middle" fill="#fb923c" fontSize="9" fontWeight="bold" letterSpacing="2">
-                  ← NIMZ (NATIONAL INVESTMENT & MANUFACTURING ZONE)
-                </text>
-                <circle cx="62" cy="68" r="5" fill="#f97316" opacity="0.9" />
-                <text x="72" y="71" fill="#f97316" fontSize="7.5" fontWeight="bold">YOU ARE HERE</text>
-                <text x="360" y="110" textAnchor="middle" fill="#6b7280" fontSize="7">N</text>
-                <line x1="360" y1="112" x2="360" y2="125" stroke="#6b7280" strokeWidth="1.5" />
-                <polygon points="360,106 356,113 364,113" fill="#6b7280" />
-                <circle cx="360" cy="116" r="13" fill="none" stroke="#374151" strokeWidth="1" />
-              </svg>
-
-              <div className="mt-4 grid grid-cols-3 gap-3">
-                {[
-                  { color: 'bg-blue-900/60 border-blue-500/50',   label: 'Plot Blocks'   },
-                  { color: 'bg-green-900/60 border-green-500/50', label: 'Park / Reserve' },
-                  { color: 'bg-amber-900/60 border-amber-500/50', label: 'CC Roads'       },
-                ].map(l => (
-                  <div key={l.label} className={`${l.color} border rounded-lg py-2 px-2 text-center`}>
-                    <p className="text-gray-300 text-xs font-medium">{l.label}</p>
-                  </div>
-                ))}
-              </div>
-              <p className="text-gray-600 text-xs text-center mt-3 italic">
-                Schematic only · View interactive map on{' '}
-                <Link to="/layout-plan" className="text-orange-400 hover:underline">Layout Plan page</Link>
-              </p>
+              <Link to="/layout-plan" className="text-orange-400 text-[11px] font-bold hover:underline underline-offset-2">
+                View Full Plan →
+              </Link>
             </div>
           </div>
 
-          {/* Right — Layout Details */}
-          <div className="flex flex-col justify-start">
-            <h3
-              className="text-2xl sm:text-3xl font-black text-white mb-6"
-              style={{ fontFamily: 'Playfair Display, serif' }}
-            >
-              Layout <span className="text-orange-400">Features</span>
-            </h3>
+          {/* Right — Details + Badges + CTA */}
+          <div className="flex flex-col gap-6">
 
-            <div className="bg-[#0a0a14] border border-orange-500/15 rounded-2xl overflow-hidden mb-7">
+            {/* Key Stats */}
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                { icon: <Home size={18} className="text-orange-400" />,      stat: '93',   label: 'Total Plots'        },
+                { icon: <Layers size={18} className="text-orange-400" />,    stat: '5',    label: 'Plot Blocks'        },
+                { icon: <FileCheck size={18} className="text-orange-400" />, stat: 'DTCP', label: 'Approved Layout'    },
+                { icon: <Shield size={18} className="text-orange-400" />,    stat: 'RERA', label: 'Registered Project' },
+              ].map((s, i) => (
+                <div key={i} className="bg-[#0a0a14] border border-orange-500/20 rounded-xl p-4 text-center">
+                  <div className="flex justify-center mb-2">{s.icon}</div>
+                  <p className="text-xl font-black text-white mb-0.5" style={{ fontFamily: 'Playfair Display, serif' }}>{s.stat}</p>
+                  <p className="text-gray-500 text-[10px] tracking-wider uppercase">{s.label}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Layout Details Table */}
+            <div className="bg-[#0a0a14] border border-orange-500/15 rounded-2xl overflow-hidden">
+              <div className="bg-orange-500/10 px-5 py-3 border-b border-orange-500/20 flex items-center gap-3">
+                <Shield size={13} className="text-orange-400" />
+                <span className="text-orange-400 font-bold text-xs tracking-wider uppercase">Layout Details</span>
+              </div>
               {[
                 { label: 'Project',     value: 'NIMZ CITY' },
                 { label: 'Location',    value: 'Kohir, Sangareddy District' },
@@ -210,43 +165,37 @@ export default function Project() {
               ].map((row, i, arr) => (
                 <div
                   key={row.label}
-                  className={`flex items-start gap-4 px-5 py-4 hover:bg-white/[0.02] transition-colors ${i !== arr.length - 1 ? 'border-b border-white/5' : ''}`}
+                  className={`flex items-start gap-3 px-5 py-3 hover:bg-white/[0.02] transition-colors ${i !== arr.length - 1 ? 'border-b border-white/5' : ''}`}
                 >
-                  <span className="text-gray-500 text-sm w-28 flex-shrink-0">{row.label}</span>
-                  <span className="text-orange-400 font-semibold text-sm leading-snug">{row.value}</span>
+                  <span className="text-gray-500 text-xs w-24 flex-shrink-0 pt-0.5">{row.label}</span>
+                  <span className="text-orange-400 font-semibold text-xs leading-snug">{row.value}</span>
                 </div>
               ))}
             </div>
 
-            <div className="flex flex-wrap gap-3 mb-8">
-              <span className="bg-orange-500/20 border border-orange-500/40 text-orange-300 text-xs font-bold px-4 py-2.5 rounded-full">
-                ✅ Spot Registration
-              </span>
-              <span className="bg-teal-600/20 border border-teal-500/40 text-teal-300 text-xs font-bold px-4 py-2.5 rounded-full">
-                🏦 Bank Loan Available
-              </span>
-              <span className="bg-blue-600/20 border border-blue-500/40 text-blue-300 text-xs font-bold px-4 py-2.5 rounded-full">
-                📋 DTCP Approved
-              </span>
-              <span className="bg-green-600/10 border border-green-500/30 text-green-400 text-xs font-semibold px-4 py-2.5 rounded-full">
-                RERA Regd. No. P01100010688
-              </span>
-              <a
-                href={rera.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-green-600/20 border border-green-500/40 text-green-300 text-xs font-bold px-4 py-2.5 rounded-full hover:bg-green-600/30 transition-colors"
-              >
-                🏛️ RERA Registered
-              </a>
+            {/* Badges */}
+            <div className="flex flex-wrap gap-2">
+              <span className="bg-orange-500/20 border border-orange-500/40 text-orange-300 text-xs font-bold px-3 py-2 rounded-full">✅ Spot Registration</span>
+              <span className="bg-teal-600/20 border border-teal-500/40 text-teal-300 text-xs font-bold px-3 py-2 rounded-full">🏦 Bank Loan Available</span>
+              <span className="bg-blue-600/20 border border-blue-500/40 text-blue-300 text-xs font-bold px-3 py-2 rounded-full">📋 DTCP Approved</span>
+              <span className="bg-green-600/10 border border-green-500/30 text-green-400 text-xs font-semibold px-3 py-2 rounded-full">RERA Regd. No. P01100010688</span>
             </div>
 
-            <Link
-              to="/contact"
-              className="btn-gold inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl text-sm font-bold tracking-wider uppercase shadow-lg shadow-orange-500/25"
-            >
-              Enquire About This Project <ArrowRight size={15} />
-            </Link>
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Link
+                to="/contact"
+                className="btn-gold inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-sm font-bold tracking-wider uppercase shadow-lg shadow-orange-500/25 flex-1"
+              >
+                Enquire Now <ArrowRight size={15} />
+              </Link>
+              <Link
+                to="/layout-plan"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-sm font-bold tracking-wider uppercase border border-orange-500/40 text-orange-400 hover:bg-orange-500/10 transition-colors flex-1"
+              >
+                View Layout Plan
+              </Link>
+            </div>
           </div>
         </div>
 

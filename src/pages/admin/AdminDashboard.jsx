@@ -3,9 +3,10 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import {
   LayoutDashboard, Users, FileText, LogOut, Phone, Mail,
-  CheckCircle, Clock, TrendingUp, Eye, Trash2, ChevronDown,
-  Shield, Home, Menu, X
+  CheckCircle, Clock, TrendingUp, Trash2,
+  Shield, Home, Menu, X, Map
 } from 'lucide-react';
+import AdminLayoutPlots from './AdminLayoutPlots';
 
 const STATUS_STYLES = {
   new: { label: 'New', class: 'bg-blue-500/20 text-blue-400 border-blue-500/40' },
@@ -16,9 +17,10 @@ const STATUS_STYLES = {
 
 function Sidebar({ active, setActive, onLogout, open, setOpen }) {
   const navItems = [
-    { key: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={18} /> },
-    { key: 'leads', label: 'Leads', icon: <FileText size={18} /> },
-    { key: 'clients', label: 'Clients', icon: <Users size={18} /> },
+    { key: 'dashboard', label: 'Dashboard',   icon: <LayoutDashboard size={18} /> },
+    { key: 'leads',     label: 'Leads',        icon: <FileText size={18} /> },
+    { key: 'clients',   label: 'Clients',      icon: <Users size={18} /> },
+    { key: 'layout',    label: 'Layout Plan',  icon: <Map size={18} /> },
   ];
   const inner = (
     <div className="w-64 bg-[#07070f] border-r border-orange-500/10 min-h-screen flex flex-col flex-shrink-0">
@@ -143,8 +145,9 @@ export default function AdminDashboard() {
             <div>
               <h1 className="text-white font-bold text-lg" style={{ fontFamily: 'Playfair Display, serif' }}>
                 {active === 'dashboard' && 'Dashboard'}
-                {active === 'leads' && 'Leads Management'}
-                {active === 'clients' && 'Registered Clients'}
+                {active === 'leads'     && 'Leads Management'}
+                {active === 'clients'   && 'Registered Clients'}
+                {active === 'layout'    && 'Layout Plan Management'}
               </h1>
               <p className="text-gray-500 text-xs">NIMZ CITY — {new Date().toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
             </div>
@@ -301,6 +304,9 @@ export default function AdminDashboard() {
               </div>
             </div>
           )}
+
+          {/* ── LAYOUT PLAN ── */}
+          {active === 'layout' && <AdminLayoutPlots />}
 
           {/* ── CLIENTS ── */}
           {active === 'clients' && (
