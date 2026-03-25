@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { api } from '../api';
 import { propertyInfo } from '../data/propertyData';
 import {
-  Phone, Mail, MapPin, Clock, CheckCircle, Send, ChevronDown, ArrowRight,
+  Phone, Mail, MapPin, Clock, CheckCircle, Send, ChevronDown, ArrowRight, Lock, UserPlus,
 } from 'lucide-react';
 
 const inputCls =
@@ -24,8 +26,9 @@ function Label({ text, required }) {
 }
 
 export default function Contact() {
-  const { submitLead, clientUser } = useAuth();
+  const { clientUser } = useAuth();
   const { contact } = propertyInfo;
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     name:     clientUser?.name  || '',
@@ -37,17 +40,44 @@ export default function Contact() {
   });
   const [submitted, setSubmitted] = useState(false);
   const [loading,   setLoading]   = useState(false);
+  const [submitError, setSubmitError] = useState('');
+
+  // Pre-fill form when clientUser loads from localStorage (async on mount)
+  useEffect(() => {
+    if (clientUser) {
+      setForm(f => ({
+        ...f,
+        name:  f.name  || clientUser.name  || '',
+        email: f.email || clientUser.email || '',
+        phone: f.phone || clientUser.phone || '',
+      }));
+    }
+  }, [clientUser]);
 
   const set = (field) => (e) => setForm(f => ({ ...f, [field]: e.target.value }));
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitError('');
+
+    // Manual validation — gives clear inline feedback instead of browser tooltips
+    if (!form.name.trim())  return setSubmitError('Please enter your full name.');
+    if (!form.phone.trim()) return setSubmitError('Please enter your phone number.');
+    if (!form.plotSize)     return setSubmitError('Please select a plot size.');
+
     setLoading(true);
-    setTimeout(() => {
-      submitLead(form);
+    try {
+      await api.submitEnquiry(form);
+      // Also save to localStorage so the client can view it in My Inquiries
+      const stored = JSON.parse(localStorage.getItem('abivya_leads') || '[]');
+      stored.push({ id: Date.now().toString(), ...form, status: 'new', createdAt: new Date().toISOString() });
+      localStorage.setItem('abivya_leads', JSON.stringify(stored));
       setSubmitted(true);
+    } catch (err) {
+      setSubmitError(err.message || 'Submission failed. Please try again or call us directly.');
+    } finally {
       setLoading(false);
-    }, 900);
+    }
   };
 
   return (
@@ -183,7 +213,65 @@ export default function Contact() {
 
           {/* ══ RIGHT — Enquiry Form ══ */}
           <div className="flex flex-col gap-5">
-            {submitted ? (
+
+            {/* ── Login Gate ── */}
+            {!clientUser && (
+              <div className="bg-[#111827] border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
+                {/* Header */}
+                <div className="bg-gradient-to-r from-orange-500/10 to-transparent border-b border-white/8 px-6 py-5 flex items-center gap-4">
+                  <div className="w-11 h-11 rounded-xl bg-orange-500 flex items-center justify-center shadow-lg shadow-orange-500/30 flex-shrink-0">
+                    <Lock size={18} className="text-white" />
+                  </div>
+                  <div>
+                    <h2 className="text-white font-black text-base" style={{ fontFamily: 'Playfair Display, serif' }}>
+                      Login to Send Enquiry
+                    </h2>
+                    <p className="text-gray-500 text-xs mt-0.5">Create a free account to get started</p>
+                  </div>
+                </div>
+
+                <div className="p-6 sm:p-8 flex flex-col items-center text-center gap-6">
+                  <div className="w-20 h-20 rounded-2xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center">
+                    <Lock size={32} className="text-orange-400" />
+                  </div>
+
+                  <div>
+                    <h3 className="text-white font-black text-xl mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>
+                      Members Only Access
+                    </h3>
+                    <p className="text-gray-400 text-sm leading-relaxed max-w-xs mx-auto">
+                      Please login or create a free account to view plot details and submit your enquiry.
+                    </p>
+                  </div>
+
+                  <div className="w-full flex flex-col gap-3">
+                    <button
+                      onClick={() => navigate('/client-login', { state: { from: '/contact', mode: 'login' } })}
+                      className="btn-gold w-full py-3.5 rounded-xl text-sm font-black tracking-widest uppercase flex items-center justify-center gap-2 shadow-lg shadow-orange-500/25"
+                    >
+                      <ArrowRight size={16} /> Login to Enquire
+                    </button>
+                    <button
+                      onClick={() => navigate('/client-login', { state: { from: '/contact', mode: 'register' } })}
+                      className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl text-sm font-bold border border-white/10 text-gray-300 hover:text-white hover:border-orange-500/40 transition-all"
+                    >
+                      <UserPlus size={16} className="text-orange-400" /> Create Free Account
+                    </button>
+                  </div>
+
+                  <div className="flex flex-wrap justify-center gap-3 pt-1">
+                    {['Free Registration', 'No Spam', 'Instant Access'].map(tag => (
+                      <span key={tag} className="flex items-center gap-1.5 text-[11px] text-gray-500">
+                        <CheckCircle size={11} className="text-orange-400" /> {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ── Enquiry Form (only when logged in) ── */}
+            {clientUser && (submitted ? (
               <div className="bg-[#111827] border border-green-500/30 rounded-2xl p-10 sm:p-14 text-center">
                 <div className="w-20 h-20 rounded-full bg-green-500/15 border-2 border-green-500/30
                                 flex items-center justify-center mx-auto mb-6">
@@ -221,7 +309,7 @@ export default function Contact() {
                   </div>
                 </div>
 
-                <form onSubmit={handleSubmit} className="p-6 flex flex-col gap-5">
+                <form onSubmit={handleSubmit} noValidate className="p-6 flex flex-col gap-5">
 
                   {/* Name + Phone */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -231,7 +319,6 @@ export default function Contact() {
                         name="name"
                         value={form.name}
                         onChange={set('name')}
-                        required
                         placeholder="Your full name"
                         className={inputCls}
                       />
@@ -242,7 +329,6 @@ export default function Contact() {
                         name="phone"
                         value={form.phone}
                         onChange={set('phone')}
-                        required
                         placeholder="+91 XXXXX XXXXX"
                         className={inputCls}
                       />
@@ -269,7 +355,6 @@ export default function Contact() {
                           name="plotSize"
                           value={form.plotSize}
                           onChange={set('plotSize')}
-                          required
                           className={selectCls}
                         >
                           <option value="" disabled>Select plot size</option>
@@ -296,6 +381,13 @@ export default function Contact() {
                                  focus:ring-2 focus:ring-orange-500/20 transition-all duration-200 resize-none"
                     />
                   </div>
+
+                  {/* Error */}
+                  {submitError && (
+                    <div className="bg-red-900/20 border border-red-500/30 rounded-xl px-4 py-3">
+                      <span className="text-red-400 text-sm">{submitError}</span>
+                    </div>
+                  )}
 
                   {/* Trust tags */}
                   <div className="flex flex-wrap gap-2.5">
@@ -328,7 +420,7 @@ export default function Contact() {
                   </p>
                 </form>
               </div>
-            )}
+            ))}
 
             {/* Quick contact buttons */}
             <div className="grid grid-cols-2 gap-4">

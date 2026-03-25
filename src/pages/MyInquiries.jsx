@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import {
@@ -30,16 +30,21 @@ function ProgressBar({ status }) {
 }
 
 export default function MyInquiries() {
-  const { clientUser, getClientLeads, clientLogout } = useAuth();
+  const { clientUser, clientLogout } = useAuth();
   const navigate = useNavigate();
+  const [myLeads, setMyLeads] = useState([]);
 
   useEffect(() => {
     if (!clientUser) navigate('/client-login');
   }, [clientUser, navigate]);
 
-  if (!clientUser) return null;
+  useEffect(() => {
+    if (!clientUser) return;
+    const all = JSON.parse(localStorage.getItem('abivya_leads') || '[]');
+    setMyLeads(all.filter(l => l.email === clientUser.email));
+  }, [clientUser]);
 
-  const myLeads = getClientLeads(clientUser.email);
+  if (!clientUser) return null;
 
   return (
     <div className="bg-[#0d0d1a] min-h-screen pb-24 w-full">

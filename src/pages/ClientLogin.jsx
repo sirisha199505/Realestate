@@ -1,62 +1,80 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { ArrowRight, Building2, Shield } from 'lucide-react';
+import { ArrowRight, Building2, Shield, Eye, EyeOff } from 'lucide-react';
 
 const inputCls =
   'w-full h-12 bg-[#0d0d1a] border border-white/10 rounded-xl px-4 text-white text-sm ' +
   'placeholder:text-gray-500 focus:outline-none focus:border-orange-500 focus:ring-2 ' +
   'focus:ring-orange-500/20 transition-all duration-200';
 
-function InputField({ label, name, type = 'text', value, onChange, placeholder, required }) {
+function InputField({ label, name, type = 'text', value, onChange, placeholder, required, rightEl }) {
   return (
     <div className="flex flex-col gap-1.5">
       <label className="text-gray-400 text-xs font-semibold tracking-widest uppercase">
         {label}{required && <span className="text-orange-400 ml-1">*</span>}
       </label>
-      <input
-        name={name}
-        type={type}
-        value={value}
-        onChange={onChange}
-        required={required}
-        placeholder={placeholder}
-        className={inputCls}
-      />
+      <div className="relative">
+        <input
+          name={name}
+          type={type}
+          value={value}
+          onChange={onChange}
+          required={required}
+          placeholder={placeholder}
+          className={inputCls + (rightEl ? ' pr-12' : '')}
+        />
+        {rightEl && (
+          <span className="absolute inset-y-0 right-0 pr-4 flex items-center">{rightEl}</span>
+        )}
+      </div>
     </div>
   );
 }
 
 export default function ClientLogin() {
   const { clientLogin, clientRegister, clientUser } = useAuth();
-  const navigate = useNavigate();
+  const navigate  = useNavigate();
+  const location  = useLocation();
+  const returnTo  = location.state?.from || '/my-inquiries';
 
-  const [mode, setMode]   = useState('login');
-  const [form, setForm]   = useState({ name: '', email: '', phone: '' });
+  const [mode, setMode]   = useState(location.state?.mode || 'login');
+  const [form, setForm]   = useState({ name: '', email: '', phone: '', password: '' });
+  const [showPass, setShowPass] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (clientUser) navigate('/my-inquiries');
-  }, [clientUser, navigate]);
+    if (clientUser) navigate(returnTo, { replace: true });
+  }, [clientUser, navigate, returnTo]);
 
   if (clientUser) return null;
 
   const handleChange = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
     setError('');
     setLoading(true);
-    setTimeout(() => {
-      const result = mode === 'login'
-        ? clientLogin(form.email)
-        : clientRegister(form.name, form.email, form.phone);
-      if (result.success) navigate('/my-inquiries');
-      else setError(result.message);
+    try {
+      if (mode === 'login') {
+        await clientLogin(form.email, form.password);
+      } else {
+        await clientRegister(form.name, form.email, form.password, form.phone);
+      }
+      navigate(returnTo, { replace: true });
+    } catch (err) {
+      setError(err.message || 'Something went wrong. Please try again.');
+    } finally {
       setLoading(false);
-    }, 600);
+    }
   };
+
+  const passToggle = (
+    <button type="button" onClick={() => setShowPass(v => !v)} className="text-gray-500 hover:text-gray-300 transition-colors">
+      {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
+    </button>
+  );
 
   return (
     <div className="bg-[#0d0d1a] min-h-[calc(100vh-112px)] flex items-center justify-center px-4 py-16">
@@ -73,8 +91,12 @@ export default function ClientLogin() {
           </h1>
           <p className="text-gray-400 text-sm leading-relaxed">
             {mode === 'login'
-              ? 'Enter your email to view your submitted enquiries'
-              : 'Register to track all your NIMZ CITY enquiries'}
+              ? returnTo === '/contact'
+                ? 'Sign in to submit your plot enquiry'
+                : 'Sign in to view your submitted enquiries'
+              : returnTo === '/contact'
+                ? 'Create a free account to submit your plot enquiry'
+                : 'Register to track all your NIMZ CITY enquiries'}
           </p>
         </div>
 
@@ -131,12 +153,26 @@ export default function ClientLogin() {
               value={form.phone}
               onChange={handleChange}
               placeholder="+91 XXXXX XXXXX"
-              required
             />
           )}
 
+          <InputField
+            label="Password"
+            name="password"
+            type={showPass ? 'text' : 'password'}
+            value={form.password}
+            onChange={handleChange}
+            placeholder="••••••••"
+            required
+            rightEl={passToggle}
+          />
+
+          {mode === 'register' && (
+            <p className="text-gray-600 text-xs -mt-1">Password must be at least 6 characters.</p>
+          )}
+
           {error && (
-            <div className="bg-red-900/20 border border-red-500/30 rounded-xl px-4 py-3 flex items-center gap-2">
+            <div className="bg-red-900/20 border border-red-500/30 rounded-xl px-4 py-3">
               <span className="text-red-400 text-sm">{error}</span>
             </div>
           )}

@@ -17,19 +17,18 @@ export default function AdminLogin() {
 
   if (adminUser) return null;
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
     setError('');
     setLoading(true);
-    setTimeout(() => {
-      const result = adminLogin(form.email, form.password);
-      if (result.success) {
-        navigate('/admin/dashboard');
-      } else {
-        setError(result.message);
-      }
+    try {
+      await adminLogin(form.email, form.password);
+      navigate('/admin/dashboard');
+    } catch (err) {
+      setError(err.message || 'Login failed. Please try again.');
+    } finally {
       setLoading(false);
-    }, 700);
+    }
   };
 
   return (

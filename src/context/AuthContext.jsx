@@ -1,103 +1,72 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { api } from '../api';
 
 const AuthContext = createContext(null);
 
-const ADMIN_CREDENTIALS = {
-  email: 'admin@abivyagroup.com',
-  password: 'Abivya@2025',
-};
-
 export function AuthProvider({ children }) {
-  const [adminUser, setAdminUser] = useState(null);
-  const [clientUser, setClientUser] = useState(null);
-  const [leads, setLeads] = useState([]);
+  const [adminUser,  setAdminUser]  = useState(null);
+  const [adminToken, setAdminToken] = useState(null);
+  const [clientUser,  setClientUser]  = useState(null);
+  const [clientToken, setClientToken] = useState(null);
 
+  // Restore sessions from localStorage on mount
   useEffect(() => {
-    const storedAdmin = localStorage.getItem('abivya_admin');
-    const storedClient = localStorage.getItem('abivya_client');
-    const storedLeads = localStorage.getItem('abivya_leads');
-    if (storedAdmin) setAdminUser(JSON.parse(storedAdmin));
-    if (storedClient) setClientUser(JSON.parse(storedClient));
-    if (storedLeads) setLeads(JSON.parse(storedLeads));
+    const a = localStorage.getItem('abivya_admin');
+    const c = localStorage.getItem('abivya_client');
+    if (a) { const d = JSON.parse(a); setAdminUser(d.user);  setAdminToken(d.token); }
+    if (c) { const d = JSON.parse(c); setClientUser(d.user); setClientToken(d.token); }
   }, []);
 
-  const adminLogin = (email, password) => {
-    if (email === ADMIN_CREDENTIALS.email && password === ADMIN_CREDENTIALS.password) {
-      const user = { email, role: 'admin', name: 'Admin' };
-      setAdminUser(user);
-      localStorage.setItem('abivya_admin', JSON.stringify(user));
-      return { success: true };
+  // ── Admin ──────────────────────────────────────────────────────────
+  const adminLogin = async (email, password) => {
+    const res = await api.login(email, password);
+    const { token, info } = res.data;
+    if (info.role !== 1 && info.role !== 2) {
+      throw new Error('This account does not have admin access.');
     }
-    return { success: false, message: 'Invalid credentials' };
+    setAdminUser(info);
+    setAdminToken(token);
+    localStorage.setItem('abivya_admin', JSON.stringify({ user: info, token }));
   };
 
   const adminLogout = () => {
     setAdminUser(null);
+    setAdminToken(null);
     localStorage.removeItem('abivya_admin');
   };
 
-  const clientRegister = (name, email, phone) => {
-    const existingClients = JSON.parse(localStorage.getItem('abivya_clients') || '[]');
-    const exists = existingClients.find(c => c.email === email);
-    if (exists) return { success: false, message: 'Email already registered. Please login.' };
-    const newClient = { name, email, phone, id: Date.now().toString(), createdAt: new Date().toISOString() };
-    existingClients.push(newClient);
-    localStorage.setItem('abivya_clients', JSON.stringify(existingClients));
-    setClientUser(newClient);
-    localStorage.setItem('abivya_client', JSON.stringify(newClient));
-    return { success: true };
+  // ── Client ─────────────────────────────────────────────────────────
+  const clientLogin = async (email, password) => {
+    const res = await api.login(email, password);
+    const { token, info } = res.data;
+    // Normalise field names for UI compatibility
+    const user = { ...info, name: info.full_name, phone: info.phone_number || '' };
+    setClientUser(user);
+    setClientToken(token);
+    localStorage.setItem('abivya_client', JSON.stringify({ user, token }));
   };
 
-  const clientLogin = (email) => {
-    const existingClients = JSON.parse(localStorage.getItem('abivya_clients') || '[]');
-    const client = existingClients.find(c => c.email === email);
-    if (client) {
-      setClientUser(client);
-      localStorage.setItem('abivya_client', JSON.stringify(client));
-      return { success: true };
-    }
-    return { success: false, message: 'Email not found. Please register first.' };
+  const clientRegister = async (name, email, password, phone) => {
+    const res = await api.register(name, email, password, phone);
+    const { token, info } = res.data;
+    const user = { ...info, name: info.full_name, phone: info.phone_number || '' };
+    setClientUser(user);
+    setClientToken(token);
+    localStorage.setItem('abivya_client', JSON.stringify({ user, token }));
   };
 
   const clientLogout = () => {
     setClientUser(null);
+    setClientToken(null);
     localStorage.removeItem('abivya_client');
   };
 
-  const submitLead = (data) => {
-    const newLead = {
-      id: Date.now().toString(),
-      ...data,
-      status: 'new',
-      createdAt: new Date().toISOString(),
-    };
-    const updatedLeads = [...leads, newLead];
-    setLeads(updatedLeads);
-    localStorage.setItem('abivya_leads', JSON.stringify(updatedLeads));
-    return newLead;
-  };
-
-  const updateLeadStatus = (id, status) => {
-    const updatedLeads = leads.map(l => l.id === id ? { ...l, status } : l);
-    setLeads(updatedLeads);
-    localStorage.setItem('abivya_leads', JSON.stringify(updatedLeads));
-  };
-
-  const deleteLead = (id) => {
-    const updatedLeads = leads.filter(l => l.id !== id);
-    setLeads(updatedLeads);
-    localStorage.setItem('abivya_leads', JSON.stringify(updatedLeads));
-  };
-
-  const getClientLeads = (email) => leads.filter(l => l.email === email);
-
   return (
     <AuthContext.Provider value={{
-      adminUser, clientUser, leads,
+      adminUser,  adminToken,
+      clientUser, clientToken,
       adminLogin, adminLogout,
       clientLogin, clientRegister, clientLogout,
-      submitLead, updateLeadStatus, deleteLead,
-      getClientLeads,
     }}>
       {children}
     </AuthContext.Provider>

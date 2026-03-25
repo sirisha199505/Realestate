@@ -164,6 +164,112 @@ select option {
   animation: shimmer 3s linear infinite;
 }
 
+/* ═══════════════════════════════════════════════
+   LIGHT MODE OVERRIDES
+   Applied when <html data-theme="light">
+═══════════════════════════════════════════════ */
+
+html[data-theme="light"] body {
+  background-color: #f5f3ee !important;
+  color: #1a1a2e !important;
+}
+
+/* Main page backgrounds */
+html[data-theme="light"] .bg-\[\#0d0d1a\],
+html[data-theme="light"] .bg-\[\#0d0d1a\]\/97 {
+  background-color: #f5f3ee !important;
+}
+html[data-theme="light"] .bg-\[\#0a0a14\] {
+  background-color: #ede9df !important;
+}
+html[data-theme="light"] .bg-\[\#111827\] {
+  background-color: #ffffff !important;
+}
+html[data-theme="light"] .bg-\[\#1a1a2e\] {
+  background-color: #eceae4 !important;
+}
+
+/* Navbar */
+html[data-theme="light"] nav {
+  background-color: rgba(255,255,255,0.97) !important;
+  border-bottom-color: rgba(0,0,0,0.08) !important;
+}
+
+/* Text colors */
+html[data-theme="light"] .text-white {
+  color: #1a1a2e !important;
+}
+html[data-theme="light"] .text-gray-300 {
+  color: #3a3a4e !important;
+}
+html[data-theme="light"] .text-gray-400 {
+  color: #5a5a6e !important;
+}
+html[data-theme="light"] .text-gray-500 {
+  color: #7a7a8e !important;
+}
+html[data-theme="light"] .text-gray-600 {
+  color: #6a6a7e !important;
+}
+
+/* Borders */
+html[data-theme="light"] .border-white\/10,
+html[data-theme="light"] .border-white\/8,
+html[data-theme="light"] .border-white\/5 {
+  border-color: rgba(0,0,0,0.10) !important;
+}
+
+/* Gradients that use dark overlay */
+html[data-theme="light"] .from-\[\#0d0d1a\]\/90,
+html[data-theme="light"] .via-\[\#0d0d1a\]\/80,
+html[data-theme="light"] .to-\[\#0d0d1a\] {
+  --tw-gradient-from: rgba(245,243,238,0.85) !important;
+  --tw-gradient-via: rgba(245,243,238,0.70) !important;
+  --tw-gradient-to: #f5f3ee !important;
+}
+
+/* Announcement bar — keep orange */
+html[data-theme="light"] .bg-orange-500 {
+  background-color: #f97316 !important;
+}
+
+/* Scrollbar for light mode */
+html[data-theme="light"] ::-webkit-scrollbar-track {
+  background: #e8e4da;
+}
+html[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: #c9a84c;
+}
+
+/* Input/select backgrounds */
+html[data-theme="light"] input,
+html[data-theme="light"] textarea {
+  background-color: #ede9df !important;
+  color: #1a1a2e !important;
+  border-color: rgba(0,0,0,0.15) !important;
+}
+html[data-theme="light"] input::placeholder,
+html[data-theme="light"] textarea::placeholder {
+  color: #9a9a9e !important;
+}
+html[data-theme="light"] select {
+  background-color: #ede9df !important;
+  color: #1a1a2e !important;
+  border-color: rgba(0,0,0,0.15) !important;
+}
+html[data-theme="light"] select option {
+  background-color: #ffffff;
+  color: #1a1a2e;
+}
+
+/* Nav links in light mode */
+html[data-theme="light"] .nav-link {
+  color: #3a3a4e !important;
+}
+html[data-theme="light"] .nav-link:hover {
+  color: #c9a84c !important;
+}
+
 /* Form styles */
 input, textarea, select {
   font-family: 'Montserrat', sans-serif;
