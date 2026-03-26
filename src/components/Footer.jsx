@@ -115,7 +115,6 @@ export default function Footer() {
           <p className="italic text-center text-gray-600 text-xs sm:max-w-xl">
             {propertyInfo.disclaimer}
           </p>
-          <Link to="/admin/login" className="text-gray-600 hover:text-orange-400 transition-colors">Admin</Link>
         </div>
       </div>
     </footer>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { api, orderToLead } from '../api';
 import {
   FileText, Clock, CheckCircle, Phone, ArrowRight,
   User, LogOut, MapPin, Building2, CalendarDays, MessageSquare,
@@ -30,19 +31,27 @@ function ProgressBar({ status }) {
 }
 
 export default function MyInquiries() {
-  const { clientUser, clientLogout } = useAuth();
+  const { clientUser, clientToken, clientLogout } = useAuth();
   const navigate = useNavigate();
   const [myLeads, setMyLeads] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!clientUser) navigate('/client-login');
   }, [clientUser, navigate]);
 
   useEffect(() => {
-    if (!clientUser) return;
-    const all = JSON.parse(localStorage.getItem('abivya_leads') || '[]');
-    setMyLeads(all.filter(l => l.email === clientUser.email));
-  }, [clientUser]);
+    if (!clientUser || !clientToken) return;
+    setLoading(true);
+    api.getMyOrders(clientToken)
+      .then(res => setMyLeads((res.data || []).map(orderToLead)))
+      .catch(() => {
+        // fallback to localStorage if API is unreachable
+        const all = JSON.parse(localStorage.getItem('abivya_leads') || '[]');
+        setMyLeads(all.filter(l => l.email === clientUser.email));
+      })
+      .finally(() => setLoading(false));
+  }, [clientUser, clientToken]);
 
   if (!clientUser) return null;
 
@@ -107,8 +116,15 @@ export default function MyInquiries() {
 
       <div className="max-w-3xl mx-auto px-4 pt-8">
 
+        {/* ══ LOADING ══ */}
+        {loading && (
+          <div className="flex items-center justify-center py-20">
+            <span className="w-8 h-8 border-2 border-orange-500/30 border-t-orange-500 rounded-full animate-spin" />
+          </div>
+        )}
+
         {/* ══ STATS ══ */}
-        {myLeads.length > 0 && (
+        {!loading && myLeads.length > 0 && (
           <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-6 sm:mb-8">
             {[
               {
@@ -154,7 +170,7 @@ export default function MyInquiries() {
         )}
 
         {/* ══ EMPTY STATE ══ */}
-        {myLeads.length === 0 ? (
+        {!loading && myLeads.length === 0 ? (
           <div className="bg-[#111827] border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
             {/* Visual hero */}
             <div
@@ -227,7 +243,7 @@ export default function MyInquiries() {
             </div>
           </div>
 
-        ) : (
+        ) : !loading && (
 
           /* ══ ENQUIRY CARDS ══ */
           <div className="space-y-4">

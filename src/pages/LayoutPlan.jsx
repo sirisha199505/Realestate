@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { api } from '../api';
 import { allPlots, STATUS, PLOTS_VERSION } from '../data/layoutData';
 import { X, Phone, Mail, User, Send, CheckCircle, ArrowRight, Search } from 'lucide-react';
 
@@ -42,7 +43,7 @@ function usePlots() {
 
 // ── Enquiry Modal ──────────────────────────────────────────────────────────
 function PlotModal({ plot, onClose, onUpdate, isAdmin }) {
-  const { submitLead, clientUser } = useAuth();
+  const { clientUser } = useAuth();
   const st   = STATUS[plot.status];
   const sqY  = plot.sqYards ?? Math.round((plot.width * plot.depth) / 9);
   const sqFt = plot.width * plot.depth;
@@ -54,15 +55,22 @@ function PlotModal({ plot, onClose, onUpdate, isAdmin }) {
   const [sent, setSent]       = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = e => {
-    e.preventDefault(); setLoading(true);
-    setTimeout(() => {
-      submitLead({ ...form, plotSize: `${sqY} Sq Yds`, plotId: plot.id,
-        plotNo: `Plot ${plot.seqNo}`, source: 'layout_plan',
-        message: form.message || `Interested in Plot ${plot.seqNo} (${plot.width}'×${plot.depth}', ${sqY} Sq Yds)` });
-      if (isAdmin) onUpdate(plot.id, { status: 'booked', bookedBy: { ...form, enquiredAt: new Date().toISOString() } });
-      setSent(true); setLoading(false);
-    }, 800);
+  const handleSubmit = async e => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      await api.submitEnquiry({
+        ...form,
+        plotSize: `${sqY} Sq Yds`,
+        source: 'layout_plan',
+        message: form.message || `Interested in Plot ${plot.seqNo} (${plot.width}'×${plot.depth}', ${sqY} Sq Yds)`,
+      });
+    } catch (err) {
+      console.error('Enquiry error:', err.message);
+    }
+    if (isAdmin) onUpdate(plot.id, { status: 'booked', bookedBy: { ...form, enquiredAt: new Date().toISOString() } });
+    setSent(true);
+    setLoading(false);
   };
 
   useEffect(() => { document.body.style.overflow = 'hidden'; return () => { document.body.style.overflow = ''; }; }, []);

@@ -84,6 +84,11 @@ export const api = {
     });
   },
 
+  // ── Client: fetch own enquiries ─────────────────────────────────────
+  getMyOrders(token) {
+    return req('GET', '/me/orders', undefined, token);
+  },
+
   // ── Admin ────────────────────────────────────────────────────────────
   getOrders(token) {
     return req('GET', '/admin/orders', undefined, token);

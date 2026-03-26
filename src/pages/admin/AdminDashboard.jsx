@@ -4,11 +4,55 @@ import { useAuth } from '../../context/AuthContext';
 import { api, orderToLead } from '../../api';
 import {
   LayoutDashboard, Users, FileText, LogOut, Phone, Mail,
-  CheckCircle, TrendingUp, Trash2, Shield, Home, Menu, X,
+  CheckCircle, TrendingUp, Trash2, Home, Menu, X,
   Map, Sun, Moon, RefreshCw, Calendar, MessageSquare,
   ChevronRight, AlertCircle, ChevronDown,
 } from 'lucide-react';
 import AdminLayoutPlots from './AdminLayoutPlots';
+
+// ─── Brand icons (same as public Navbar) ──────────────────────────────────────
+function AbivyaIcon({ size = 30 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 60 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="2"  y="8"  width="16" height="44" fill="#1E3A5F" rx="1" />
+      <rect x="4"  y="12" width="3"  height="4"  fill="#5B9BD5" opacity="0.9" />
+      <rect x="9"  y="12" width="3"  height="4"  fill="#5B9BD5" opacity="0.9" />
+      <rect x="4"  y="20" width="3"  height="4"  fill="#5B9BD5" opacity="0.9" />
+      <rect x="9"  y="20" width="3"  height="4"  fill="#5B9BD5" opacity="0.9" />
+      <rect x="4"  y="28" width="3"  height="4"  fill="#5B9BD5" opacity="0.9" />
+      <rect x="9"  y="28" width="3"  height="4"  fill="#5B9BD5" opacity="0.9" />
+      <rect x="20" y="0"  width="20" height="52" fill="#1A4F8A" rx="1" />
+      <rect x="23" y="4"  width="4"  height="5"  fill="#7EC8E3" />
+      <rect x="31" y="4"  width="4"  height="5"  fill="#7EC8E3" />
+      <rect x="23" y="14" width="4"  height="5"  fill="#7EC8E3" />
+      <rect x="31" y="14" width="4"  height="5"  fill="#7EC8E3" />
+      <rect x="23" y="24" width="4"  height="5"  fill="#7EC8E3" />
+      <rect x="31" y="24" width="4"  height="5"  fill="#7EC8E3" />
+      <rect x="23" y="34" width="4"  height="5"  fill="#7EC8E3" />
+      <rect x="31" y="34" width="4"  height="5"  fill="#7EC8E3" />
+      <rect x="42" y="14" width="16" height="38" fill="#1E3A5F" rx="1" />
+      <rect x="44" y="18" width="3"  height="4"  fill="#5B9BD5" opacity="0.9" />
+      <rect x="50" y="18" width="3"  height="4"  fill="#5B9BD5" opacity="0.9" />
+      <rect x="44" y="26" width="3"  height="4"  fill="#5B9BD5" opacity="0.9" />
+      <rect x="50" y="26" width="3"  height="4"  fill="#5B9BD5" opacity="0.9" />
+      <rect x="44" y="34" width="3"  height="4"  fill="#5B9BD5" opacity="0.9" />
+      <rect x="50" y="34" width="3"  height="4"  fill="#5B9BD5" opacity="0.9" />
+    </svg>
+  );
+}
+
+function NcIcon({ size = 26 }) {
+  return (
+    <svg width={size} height={size * 0.9} viewBox="0 0 50 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="25,1 6,14 44,14" fill="#00B4C8" />
+      <rect x="4"  y="16" width="5" height="22" fill="#F47920" rx="0.5" />
+      <polygon points="4,16 9,16 20,32 20,38 15,38 4,22" fill="#F47920" />
+      <rect x="15" y="16" width="5" height="22" fill="#F47920" rx="0.5" />
+      <path d="M41,19 C33,16 26,20 26,28 C26,36 33,40 41,37"
+        stroke="#1A2B6B" strokeWidth="6" strokeLinecap="round" fill="none" />
+    </svg>
+  );
+}
 
 // ─── Status config ────────────────────────────────────────────────────────────
 const STATUS = {
@@ -31,54 +75,74 @@ function Sidebar({ active, setActive, onLogout, open, setOpen, dark }) {
   ];
 
   const inner = (
-    <div className={`w-64 min-h-screen flex flex-col flex-shrink-0 ${t(dark,'bg-slate-900 border-r border-slate-700','bg-white border-r border-gray-200 shadow-sm')}`}>
-      {/* Logo */}
-      <div className={`px-6 py-5 border-b flex items-center justify-between ${t(dark,'border-slate-700','border-gray-100')}`}>
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-orange-500 flex items-center justify-center shadow-lg shadow-orange-500/30">
-            <Shield size={18} className="text-white" />
+    <div className={`w-64 min-h-screen flex flex-col flex-shrink-0 ${t(dark,'bg-[#0d0d1a] border-r border-white/8','bg-white border-r border-gray-200 shadow-sm')}`}>
+
+      {/* Logo — same as public navbar */}
+      <div className={`px-5 py-4 border-b flex items-center justify-between ${t(dark,'border-white/8','border-gray-100')}`}>
+        <div className="flex items-center gap-2.5">
+          <AbivyaIcon size={28} />
+          <div className="leading-[1.15]">
+            <p className={`font-black text-[13px] tracking-[3px] ${t(dark,'text-white','text-gray-900')}`}>ABIVYA</p>
+            <p className="text-orange-400 font-bold text-[9px] tracking-[5px]">GROUP</p>
           </div>
-          <div>
-            <p className={`font-black text-sm tracking-wider ${t(dark,'text-white','text-gray-900')}`}>ABIVYA GROUP</p>
-            <p className="text-orange-500 text-[10px] font-bold tracking-widest uppercase">Admin Panel</p>
+          <div className={`w-px h-7 mx-1 ${t(dark,'bg-white/10','bg-gray-200')}`} />
+          <NcIcon size={22} />
+          <div className="leading-[1.15]">
+            <p className={`font-black text-[12px] tracking-wide ${t(dark,'text-white','text-gray-900')}`}>
+              NIMZ <span className="text-orange-400">CITY</span>
+            </p>
+            <p className={`text-[8px] tracking-widest ${t(dark,'text-gray-500','text-gray-400')}`}>KOHIR</p>
           </div>
         </div>
-        <button className={`lg:hidden ${t(dark,'text-slate-400 hover:text-white','text-gray-400 hover:text-gray-600')}`} onClick={() => setOpen(false)}>
-          <X size={18} />
+        <button className={`lg:hidden p-1 rounded-lg ${t(dark,'text-slate-400 hover:text-white hover:bg-white/5','text-gray-400 hover:text-gray-600 hover:bg-gray-100')}`} onClick={() => setOpen(false)}>
+          <X size={16} />
         </button>
       </div>
 
+      {/* Section label */}
+      <div className={`px-5 pt-5 pb-2`}>
+        <p className={`text-[10px] font-bold tracking-widest uppercase ${t(dark,'text-slate-500','text-gray-400')}`}>Main Menu</p>
+      </div>
+
       {/* Nav */}
-      <nav className="flex-1 px-3 py-5 space-y-0.5">
+      <nav className="flex-1 px-3 space-y-0.5">
         {navItems.map(({ key, label, icon: Icon }) => (
           <button
             key={key}
             onClick={() => { setActive(key); setOpen(false); }}
-            className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 ${
+            className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-150 relative ${
               active === key
-                ? 'bg-orange-500 text-white shadow-md shadow-orange-500/25'
-                : t(dark,'text-slate-400 hover:text-white hover:bg-slate-800','text-gray-600 hover:text-gray-900 hover:bg-gray-50')
+                ? t(dark,
+                    'bg-orange-500/15 text-orange-400 border border-orange-500/25',
+                    'bg-orange-50 text-orange-600 border border-orange-200')
+                : t(dark,
+                    'text-slate-400 hover:text-white hover:bg-white/5 border border-transparent',
+                    'text-gray-500 hover:text-gray-900 hover:bg-gray-50 border border-transparent')
             }`}
           >
-            <Icon size={16} />
+            {active === key && (
+              <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 rounded-r-full bg-orange-500" />
+            )}
+            <Icon size={16} className={active === key ? t(dark,'text-orange-400','text-orange-500') : ''} />
             {label}
           </button>
         ))}
       </nav>
 
-      {/* Footer */}
-      <div className={`px-3 pb-5 pt-3 border-t space-y-0.5 ${t(dark,'border-slate-700','border-gray-100')}`}>
+      {/* Bottom */}
+      <div className={`px-3 pb-5 pt-3 mt-4 border-t space-y-0.5 ${t(dark,'border-white/8','border-gray-100')}`}>
+        <p className={`px-4 pb-1 text-[10px] font-bold tracking-widest uppercase ${t(dark,'text-slate-600','text-gray-400')}`}>Account</p>
         <Link
           to="/"
-          className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${t(dark,'text-slate-400 hover:text-white hover:bg-slate-800','text-gray-600 hover:text-gray-900 hover:bg-gray-50')}`}
+          className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all border border-transparent ${t(dark,'text-slate-400 hover:text-white hover:bg-white/5','text-gray-500 hover:text-gray-900 hover:bg-gray-50')}`}
         >
-          <Home size={16} /> View Website
+          <Home size={15} /> View Website
         </Link>
         <button
           onClick={onLogout}
-          className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-red-500 hover:bg-red-50 hover:bg-red-500/10 transition-all"
+          className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold text-red-500 border border-transparent transition-all ${t(dark,'hover:bg-red-500/10 hover:border-red-500/20','hover:bg-red-50 hover:border-red-100')}`}
         >
-          <LogOut size={16} /> Logout
+          <LogOut size={15} /> Logout
         </button>
       </div>
     </div>
@@ -100,7 +164,7 @@ function Sidebar({ active, setActive, onLogout, open, setOpen, dark }) {
 // ─── Stats card ───────────────────────────────────────────────────────────────
 function StatsCard({ title, value, icon: Icon, accentLight, accentDark, sub, dark }) {
   return (
-    <div className={`rounded-2xl p-5 border transition-all hover:shadow-md ${t(dark,'bg-slate-800 border-slate-700','bg-white border-gray-100 shadow-sm')}`}>
+    <div className={`rounded-2xl p-5 border transition-all hover:shadow-lg hover:-translate-y-0.5 duration-200 ${t(dark,'bg-[#0d0d1a] border-white/8 hover:border-white/15','bg-white border-gray-100 shadow-sm hover:shadow-md')}`}>
       <div className="flex items-start justify-between mb-4">
         <div className={`w-11 h-11 rounded-xl flex items-center justify-center ${dark ? accentDark : accentLight}`}>
           <Icon size={20} />
@@ -233,7 +297,7 @@ export default function AdminDashboard() {
 
   // ── Render ──────────────────────────────────────────────────────────────────
   return (
-    <div className={`min-h-screen flex ${t(dark,'bg-slate-950','bg-gray-50')}`}>
+    <div className={`min-h-screen flex ${t(dark,'bg-[#080810]','bg-gray-50')}`}>
 
       {/* Toast */}
       {toast.msg && (
@@ -259,15 +323,19 @@ export default function AdminDashboard() {
       <div className="flex-1 flex flex-col overflow-auto">
 
         {/* Top bar */}
-        <header className={`sticky top-0 z-30 px-4 sm:px-8 py-4 flex items-center justify-between gap-4 border-b ${t(dark,'bg-slate-900 border-slate-700','bg-white border-gray-200 shadow-sm')}`}>
+        <header className={`sticky top-0 z-30 px-4 sm:px-8 py-3.5 flex items-center justify-between gap-4 border-b ${t(dark,'bg-[#0d0d1a]/95 backdrop-blur border-white/8','bg-white border-gray-200 shadow-sm')}`}>
           <div className="flex items-center gap-3">
-            <button className={`lg:hidden p-2 rounded-lg ${t(dark,'text-slate-400 hover:bg-slate-800','text-gray-500 hover:bg-gray-100')}`} onClick={() => setSidebarOpen(true)}>
+            <button className={`lg:hidden p-2 rounded-xl ${t(dark,'text-slate-400 hover:text-white hover:bg-white/5','text-gray-500 hover:bg-gray-100')}`} onClick={() => setSidebarOpen(true)}>
               <Menu size={20} />
             </button>
             <div>
-              <h1 className={`font-bold text-lg leading-tight ${t(dark,'text-white','text-gray-900')}`}>{pageTitle[active]}</h1>
-              <p className={`text-xs ${t(dark,'text-slate-500','text-gray-400')}`}>
-                NIMZ CITY · {new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+              <div className="flex items-center gap-2">
+                <span className={`text-xs font-medium ${t(dark,'text-slate-500','text-gray-400')}`}>Admin</span>
+                <ChevronRight size={12} className={t(dark,'text-slate-600','text-gray-300')} />
+                <h1 className={`font-bold text-sm ${t(dark,'text-white','text-gray-900')}`}>{pageTitle[active]}</h1>
+              </div>
+              <p className={`text-xs mt-0.5 ${t(dark,'text-slate-500','text-gray-400')}`}>
+                {new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
               </p>
             </div>
           </div>
@@ -277,7 +345,7 @@ export default function AdminDashboard() {
             <button
               onClick={fetchData}
               disabled={loading}
-              className={`p-2 rounded-xl border transition-all ${t(dark,'border-slate-700 text-slate-400 hover:text-white hover:bg-slate-800','border-gray-200 text-gray-500 hover:text-gray-700 hover:bg-gray-50')} ${loading ? 'opacity-50' : ''}`}
+              className={`p-2 rounded-xl border transition-all ${t(dark,'border-white/8 text-slate-400 hover:text-white hover:bg-white/5','border-gray-200 text-gray-500 hover:text-gray-700 hover:bg-gray-50')} ${loading ? 'opacity-50' : ''}`}
               title="Refresh data"
             >
               <RefreshCw size={15} className={loading ? 'animate-spin' : ''} />
@@ -287,7 +355,7 @@ export default function AdminDashboard() {
             <button
               ref={btnRef}
               onClick={openDrop}
-              className={`flex items-center gap-2.5 px-3 py-2 rounded-xl border transition-all ${t(dark,'border-slate-700 bg-slate-800 hover:bg-slate-700','border-gray-200 bg-white hover:bg-gray-50')}`}
+              className={`flex items-center gap-2.5 px-3 py-2 rounded-xl border transition-all ${t(dark,'border-white/8 bg-white/5 hover:bg-white/10','border-gray-200 bg-white hover:bg-gray-50')}`}
             >
               <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center flex-shrink-0 shadow-md shadow-orange-500/30">
                 <span className="text-white text-xs font-black">{adminUser.full_name?.[0]?.toUpperCase() || 'A'}</span>
@@ -304,13 +372,13 @@ export default function AdminDashboard() {
               <div
                 ref={dropRef}
                 style={{ position: 'fixed', top: dropPos.top, right: dropPos.right, zIndex: 9999 }}
-                className={`w-56 rounded-2xl border shadow-2xl overflow-hidden ${t(dark,'bg-slate-800 border-slate-700','bg-white border-gray-200')}`}
+                className={`w-56 rounded-2xl border shadow-2xl overflow-hidden ${t(dark,'bg-[#0d0d1a] border-white/8','bg-white border-gray-200')}`}
               >
                 {/* Theme toggle */}
                 <button
                   onClick={() => { toggleDark(); setUserDropOpen(false); }}
                   className={`w-full flex items-center gap-3 px-4 py-3.5 text-sm font-semibold transition-colors border-b ${
-                    t(dark,'text-slate-200 hover:bg-slate-700 border-slate-700','text-gray-700 hover:bg-gray-50 border-gray-100')
+                    t(dark,'text-slate-200 hover:bg-white/5 border-white/8','text-gray-700 hover:bg-gray-50 border-gray-100')
                   }`}
                 >
                   {dark
@@ -324,7 +392,7 @@ export default function AdminDashboard() {
                   to="/"
                   onClick={() => setUserDropOpen(false)}
                   className={`flex items-center gap-3 px-4 py-3.5 text-sm font-semibold transition-colors border-b ${
-                    t(dark,'text-slate-200 hover:bg-slate-700 border-slate-700','text-gray-700 hover:bg-gray-50 border-gray-100')
+                    t(dark,'text-slate-200 hover:bg-white/5 border-white/8','text-gray-700 hover:bg-gray-50 border-gray-100')
                   }`}
                 >
                   <Home size={16} className="text-orange-500 flex-shrink-0" /><span>View Website</span>
@@ -372,7 +440,7 @@ export default function AdminDashboard() {
                   { label: 'Registered Clients', value: clients.length, accent: 'text-blue-500' },
                   { label: 'Conversion Rate',    value: `${leads.length > 0 ? Math.round((stats.closed / leads.length) * 100) : 0}%`, accent: 'text-emerald-500' },
                 ].map(c => (
-                  <div key={c.label} className={`rounded-2xl p-5 border ${t(dark,'bg-slate-800 border-slate-700','bg-white border-gray-100 shadow-sm')}`}>
+                  <div key={c.label} className={`rounded-2xl p-5 border ${t(dark,'bg-[#0d0d1a] border-white/8','bg-white border-gray-100 shadow-sm')}`}>
                     <p className={`text-xs font-bold tracking-wider uppercase mb-2 ${t(dark,'text-slate-500','text-gray-400')}`}>{c.label}</p>
                     <p className={`text-4xl font-black ${c.accent}`}>{c.value}</p>
                   </div>
@@ -380,8 +448,8 @@ export default function AdminDashboard() {
               </div>
 
               {/* Recent enquiries table */}
-              <div className={`rounded-2xl border overflow-hidden ${t(dark,'bg-slate-800 border-slate-700','bg-white border-gray-100 shadow-sm')}`}>
-                <div className={`px-6 py-4 border-b flex items-center justify-between ${t(dark,'border-slate-700','border-gray-100')}`}>
+              <div className={`rounded-2xl border overflow-hidden ${t(dark,'bg-[#0d0d1a] border-white/8','bg-white border-gray-100 shadow-sm')}`}>
+                <div className={`px-6 py-4 border-b flex items-center justify-between ${t(dark,'border-white/8','border-gray-100')}`}>
                   <div>
                     <h2 className={`font-bold ${t(dark,'text-white','text-gray-900')}`}>Recent Enquiries</h2>
                     <p className={`text-xs mt-0.5 ${t(dark,'text-slate-500','text-gray-400')}`}>Latest 5 submissions</p>
@@ -405,7 +473,7 @@ export default function AdminDashboard() {
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                       <thead>
-                        <tr className={`text-xs uppercase tracking-wider font-bold border-b ${t(dark,'bg-slate-900 border-slate-700 text-slate-400','bg-gray-50 border-gray-100 text-gray-500')}`}>
+                        <tr className={`text-xs uppercase tracking-wider font-bold border-b ${t(dark,'bg-[#080810] border-white/8 text-slate-500','bg-gray-50 border-gray-100 text-gray-500')}`}>
                           <th className="px-6 py-3 text-left">Name</th>
                           <th className="px-6 py-3 text-left">Phone</th>
                           <th className="px-6 py-3 text-left">Plot Size</th>
@@ -417,7 +485,7 @@ export default function AdminDashboard() {
                         {[...leads].reverse().slice(0, 5).map(lead => {
                           const s = STATUS[lead.status] || STATUS.new;
                           return (
-                            <tr key={lead.id} className={`border-b last:border-0 transition-colors ${t(dark,'border-slate-700 hover:bg-slate-700/40','border-gray-50 hover:bg-gray-50')}`}>
+                            <tr key={lead.id} className={`border-b last:border-0 transition-colors ${t(dark,'border-white/5 hover:bg-white/3','border-gray-50 hover:bg-gray-50')}`}>
                               <td className={`px-6 py-4 font-semibold ${t(dark,'text-white','text-gray-900')}`}>{lead.name}</td>
                               <td className={`px-6 py-4 ${t(dark,'text-slate-400','text-gray-500')}`}>{lead.phone}</td>
                               <td className={`px-6 py-4 font-medium ${t(dark,'text-orange-400','text-orange-600')}`}>{lead.plotSize || '—'}</td>
@@ -440,7 +508,7 @@ export default function AdminDashboard() {
           {active === 'leads' && (
             <div className="space-y-4">
               {/* Filter bar */}
-              <div className={`rounded-2xl border p-4 flex flex-wrap items-center gap-3 ${t(dark,'bg-slate-800 border-slate-700','bg-white border-gray-100 shadow-sm')}`}>
+              <div className={`rounded-2xl border p-4 flex flex-wrap items-center gap-3 ${t(dark,'bg-[#0d0d1a] border-white/8','bg-white border-gray-100 shadow-sm')}`}>
                 <span className={`text-xs font-bold uppercase tracking-wider ${t(dark,'text-slate-400','text-gray-400')}`}>Filter:</span>
                 {[['all','All'], ...Object.entries(STATUS).map(([k,v]) => [k, v.label])].map(([key, label]) => (
                   <button
@@ -459,8 +527,8 @@ export default function AdminDashboard() {
               </div>
 
               {/* Table */}
-              <div className={`rounded-2xl border overflow-hidden ${t(dark,'bg-slate-800 border-slate-700','bg-white border-gray-100 shadow-sm')}`}>
-                <div className={`px-6 py-4 border-b ${t(dark,'border-slate-700','border-gray-100')}`}>
+              <div className={`rounded-2xl border overflow-hidden ${t(dark,'bg-[#0d0d1a] border-white/8','bg-white border-gray-100 shadow-sm')}`}>
+                <div className={`px-6 py-4 border-b ${t(dark,'border-white/8','border-gray-100')}`}>
                   <h2 className={`font-bold ${t(dark,'text-white','text-gray-900')}`}>All Enquiries <span className={`text-sm font-normal ${t(dark,'text-slate-400','text-gray-400')}`}>({filteredLeads.length})</span></h2>
                 </div>
                 {filteredLeads.length === 0 ? (
@@ -473,7 +541,7 @@ export default function AdminDashboard() {
                     {[...filteredLeads].reverse().map(lead => {
                       const s = STATUS[lead.status] || STATUS.new;
                       return (
-                        <div key={lead.id} className={`p-5 sm:p-6 transition-colors ${t(dark,'divide-slate-700 hover:bg-slate-700/30','divide-gray-100 hover:bg-gray-50/80')}`}>
+                        <div key={lead.id} className={`p-5 sm:p-6 transition-colors ${t(dark,'divide-white/5 hover:bg-white/3','divide-gray-100 hover:bg-gray-50/80')}`}>
                           <div className="flex items-start justify-between gap-4 flex-wrap">
                             {/* Lead info */}
                             <div className="flex-1 min-w-0">
@@ -512,7 +580,7 @@ export default function AdminDashboard() {
                               <select
                                 value={lead.status}
                                 onChange={e => handleStatusChange(lead.id, e.target.value)}
-                                className={`text-xs font-medium rounded-xl px-3 py-2 border cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-500/30 transition-all ${t(dark,'bg-slate-900 border-slate-600 text-slate-300','bg-white border-gray-200 text-gray-700')}`}
+                                className={`text-xs font-medium rounded-xl px-3 py-2 border cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-500/30 transition-all ${t(dark,'bg-[#080810] border-white/8 text-slate-300','bg-white border-gray-200 text-gray-700')}`}
                               >
                                 {Object.entries(STATUS).map(([key, val]) => (
                                   <option key={key} value={key}>{val.label}</option>
@@ -540,8 +608,8 @@ export default function AdminDashboard() {
 
           {/* ── CLIENTS ── */}
           {active === 'clients' && (
-            <div className={`rounded-2xl border overflow-hidden ${t(dark,'bg-slate-800 border-slate-700','bg-white border-gray-100 shadow-sm')}`}>
-              <div className={`px-6 py-4 border-b ${t(dark,'border-slate-700','border-gray-100')}`}>
+            <div className={`rounded-2xl border overflow-hidden ${t(dark,'bg-[#0d0d1a] border-white/8','bg-white border-gray-100 shadow-sm')}`}>
+              <div className={`px-6 py-4 border-b ${t(dark,'border-white/8','border-gray-100')}`}>
                 <h2 className={`font-bold ${t(dark,'text-white','text-gray-900')}`}>
                   Registered Clients <span className={`text-sm font-normal ${t(dark,'text-slate-400','text-gray-400')}`}>({clients.length})</span>
                 </h2>
@@ -556,7 +624,7 @@ export default function AdminDashboard() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className={`text-xs uppercase tracking-wider font-bold border-b ${t(dark,'bg-slate-900 border-slate-700 text-slate-400','bg-gray-50 border-gray-100 text-gray-500')}`}>
+                      <tr className={`text-xs uppercase tracking-wider font-bold border-b ${t(dark,'bg-[#080810] border-white/8 text-slate-500','bg-gray-50 border-gray-100 text-gray-500')}`}>
                         <th className="px-6 py-3 text-left">Name</th>
                         <th className="px-6 py-3 text-left">Email</th>
                         <th className="px-6 py-3 text-left">Phone</th>
@@ -566,7 +634,7 @@ export default function AdminDashboard() {
                     </thead>
                     <tbody>
                       {clients.map(client => (
-                        <tr key={client.id} className={`border-b last:border-0 transition-colors ${t(dark,'border-slate-700 hover:bg-slate-700/40','border-gray-50 hover:bg-gray-50')}`}>
+                        <tr key={client.id} className={`border-b last:border-0 transition-colors ${t(dark,'border-white/5 hover:bg-white/3','border-gray-50 hover:bg-gray-50')}`}>
                           <td className={`px-6 py-4 font-semibold ${t(dark,'text-white','text-gray-900')}`}>{client.full_name}</td>
                           <td className={`px-6 py-4 ${t(dark,'text-slate-400','text-gray-500')}`}>{client.email}</td>
                           <td className={`px-6 py-4 ${t(dark,'text-slate-400','text-gray-500')}`}>{client.phone_number || '—'}</td>
@@ -590,7 +658,7 @@ export default function AdminDashboard() {
         </main>
 
         {/* Footer */}
-        <footer className={`px-8 py-4 border-t text-xs ${t(dark,'border-slate-700 text-slate-600','border-gray-100 text-gray-400')}`}>
+        <footer className={`px-8 py-4 border-t text-xs ${t(dark,'border-white/8 text-slate-600','border-gray-100 text-gray-400')}`}>
           © {new Date().getFullYear()} Abivya Group · NIMZ CITY Admin Panel
         </footer>
       </div>

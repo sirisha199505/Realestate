@@ -14,6 +14,7 @@ import MyInquiries from './pages/MyInquiries';
 import LayoutPlan from './pages/LayoutPlan';
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminDashboard from './pages/admin/AdminDashboard';
+import ProtectedAdminRoute from './components/ProtectedAdminRoute';
 
 function ClientLayout({ children }) {
   return (
@@ -36,7 +37,7 @@ function App() {
         <Routes>
           {/* Admin routes — no navbar/footer */}
           <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/dashboard" element={<ProtectedAdminRoute><AdminDashboard /></ProtectedAdminRoute>} />
 
           {/* Client routes */}
           <Route path="/" element={<ClientLayout><Home /></ClientLayout>} />
