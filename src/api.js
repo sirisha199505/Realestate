@@ -1,4 +1,4 @@
-const BASE = import.meta.env.VITE_API_URL || '/api';
+const BASE = import.meta.env.VITE_API_URL || 'https://realestate-api-4yk7.onrender.com/api';
 
 async function req(method, path, body, token) {
   const headers = { 'Content-Type': 'application/json' };
