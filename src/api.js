@@ -5,8 +5,8 @@ async function req(method, path, body, token, attempt = 1) {
   if (token) headers['Authorization'] = `Bearer ${token}`;
 
   const controller = new AbortController();
-  // 90s on first try (covers Render cold-start ~50s); 30s on retry
-  const timer = setTimeout(() => controller.abort(), attempt === 1 ? 90000 : 30000);
+  // 120s on first try (covers Render + Neon DB chained cold-start); 60s on retry
+  const timer = setTimeout(() => controller.abort(), attempt === 1 ? 120000 : 60000);
 
   let res;
   try {

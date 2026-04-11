@@ -10,8 +10,6 @@ import Project from './pages/Project';
 import Gallery from './pages/Gallery';
 import Location from './pages/Location';
 import Contact from './pages/Contact';
-import ClientLogin from './pages/ClientLogin';
-import MyInquiries from './pages/MyInquiries';
 import LayoutPlan from './pages/LayoutPlan';
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -47,8 +45,6 @@ function App() {
           <Route path="/gallery" element={<ClientLayout><Gallery /></ClientLayout>} />
           <Route path="/location" element={<ClientLayout><Location /></ClientLayout>} />
           <Route path="/contact" element={<ClientLayout><Contact /></ClientLayout>} />
-          <Route path="/client-login" element={<ClientLayout><ClientLogin /></ClientLayout>} />
-          <Route path="/my-inquiries" element={<ClientLayout><MyInquiries /></ClientLayout>} />
           <Route path="/layout-plan" element={<ClientLayout><LayoutPlan /></ClientLayout>} />
         </Routes>
       </BrowserRouter>

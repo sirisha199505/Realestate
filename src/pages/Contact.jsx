@@ -1,11 +1,21 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useState } from 'react';
+import emailjs from '@emailjs/browser';
 import { api } from '../api';
 import { propertyInfo } from '../data/propertyData';
 import {
-  Phone, Mail, MapPin, Clock, CheckCircle, Send, ChevronDown, ArrowRight, Lock, UserPlus,
+  Phone, Mail, MapPin, Clock, CheckCircle, Send, ChevronDown, ArrowRight,
 } from 'lucide-react';
+
+// ── EmailJS config — set these in your .env file ──────────────────────────────
+// VITE_EMAILJS_SERVICE_ID   → your EmailJS service ID
+// VITE_EMAILJS_TEMPLATE_ID  → your EmailJS template ID
+// VITE_EMAILJS_PUBLIC_KEY   → your EmailJS public key
+const EJ_SERVICE  = import.meta.env.VITE_EMAILJS_SERVICE_ID  || '';
+const EJ_TEMPLATE = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || '';
+const EJ_KEY      = import.meta.env.VITE_EMAILJS_PUBLIC_KEY  || '';
+const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL || 'info@abivyagroup.com';
+
+const ADMIN_WHATSAPP = '919996999872';
 
 const inputCls =
   'w-full h-12 bg-[#0a0a14] border border-white/10 rounded-xl px-4 text-white text-sm ' +
@@ -25,59 +35,78 @@ function Label({ text, required }) {
   );
 }
 
+function WhatsAppIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className="w-5 h-5 fill-white">
+      <path d="M16 .5C7.44.5.5 7.44.5 16c0 2.72.7 5.28 1.93 7.5L.5 31.5l8.27-1.9A15.45 15.45 0 0016 31.5C24.56 31.5 31.5 24.56 31.5 16S24.56.5 16 .5zm0 28.3a13.14 13.14 0 01-6.7-1.84l-.48-.28-4.91 1.13 1.17-4.77-.32-.5A13.2 13.2 0 1116 28.8zm7.26-9.86c-.4-.2-2.36-1.16-2.72-1.3-.37-.13-.63-.2-.9.2s-1.03 1.3-1.27 1.57c-.23.27-.46.3-.86.1a10.83 10.83 0 01-3.19-1.97 11.96 11.96 0 01-2.21-2.75c-.23-.4-.02-.61.17-.81.18-.18.4-.46.6-.7.2-.23.27-.4.4-.66.13-.27.07-.5-.03-.7-.1-.2-.9-2.16-1.23-2.96-.32-.78-.65-.67-.9-.68h-.76c-.27 0-.7.1-1.06.5-.37.4-1.4 1.37-1.4 3.33s1.43 3.86 1.63 4.13c.2.27 2.82 4.3 6.83 6.03.95.41 1.7.66 2.28.84.96.3 1.83.26 2.52.16.77-.12 2.36-.96 2.7-1.9.33-.92.33-1.71.23-1.87-.1-.17-.36-.27-.76-.47z"/>
+    </svg>
+  );
+}
+
+function openAdminWhatsApp(form) {
+  const lines = [
+    `Hello! I have an enquiry about NIMZ CITY plots.`,
+    ``,
+    `*Name:* ${form.name}`,
+    `*Phone:* ${form.phone}`,
+  ];
+  if (form.email)    lines.push(`*Email:* ${form.email}`);
+  if (form.plotSize) lines.push(`*Plot Size:* ${form.plotSize}`);
+  if (form.message)  lines.push(`*Message:* ${form.message}`);
+  const text = encodeURIComponent(lines.join('\n'));
+  window.open(`https://wa.me/${ADMIN_WHATSAPP}?text=${text}`, '_blank');
+}
+
 export default function Contact() {
-  const { clientUser } = useAuth();
   const { contact } = propertyInfo;
-  const navigate = useNavigate();
 
   const [form, setForm] = useState({
-    name:     clientUser?.name  || '',
-    email:    clientUser?.email || '',
-    phone:    clientUser?.phone || '',
-    plotSize: '',
-    message:  '',
-    source:   'contact_page',
+    name: '', email: '', phone: '', plotSize: '', message: '', source: 'contact_page',
   });
-  const [submitted, setSubmitted] = useState(false);
-  const [loading,   setLoading]   = useState(false);
-  const [submitError, setSubmitError] = useState('');
-
-  // Pre-fill form when clientUser loads from localStorage (async on mount)
-  useEffect(() => {
-    if (clientUser) {
-      setForm(f => ({
-        ...f,
-        name:  f.name  || clientUser.name  || '',
-        email: f.email || clientUser.email || '',
-        phone: f.phone || clientUser.phone || '',
-      }));
-    }
-  }, [clientUser]);
+  const [submitted,    setSubmitted]    = useState(false);
+  const [loading,      setLoading]      = useState(false);
+  const [submitError,  setSubmitError]  = useState('');
 
   const set = (field) => (e) => setForm(f => ({ ...f, [field]: e.target.value }));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitError('');
-
-    // Manual validation — gives clear inline feedback instead of browser tooltips
     if (!form.name.trim())  return setSubmitError('Please enter your full name.');
     if (!form.phone.trim()) return setSubmitError('Please enter your phone number.');
     if (!form.plotSize)     return setSubmitError('Please select a plot size.');
 
     setLoading(true);
     try {
-      await api.submitEnquiry(form);
-      // Also save to localStorage so the client can view it in My Inquiries
-      const stored = JSON.parse(localStorage.getItem('abivya_leads') || '[]');
-      stored.push({ id: Date.now().toString(), ...form, status: 'new', createdAt: new Date().toISOString() });
-      localStorage.setItem('abivya_leads', JSON.stringify(stored));
-      setSubmitted(true);
+      // 1. Send email to admin via EmailJS (works even if backend is sleeping)
+      if (EJ_SERVICE && EJ_TEMPLATE && EJ_KEY) {
+        await emailjs.send(
+          EJ_SERVICE,
+          EJ_TEMPLATE,
+          {
+            to_email:   ADMIN_EMAIL,
+            from_name:  form.name,
+            from_phone: form.phone,
+            from_email: form.email || 'Not provided',
+            plot_size:  form.plotSize,
+            message:    form.message || 'No message',
+            source:     'Contact Page',
+          },
+          EJ_KEY
+        );
+      }
+
+      // 2. Save to backend (fire-and-forget — don't block success screen)
+      api.submitEnquiry(form).catch(() => {});
+
     } catch (err) {
-      setSubmitError(err.message || 'Submission failed. Please try again or call us directly.');
-    } finally {
+      setSubmitError('Failed to send enquiry. Please try WhatsApp or call us directly.');
       setLoading(false);
+      return;
     }
+
+    setLoading(false);
+    setSubmitted(true);
   };
 
   return (
@@ -93,12 +122,6 @@ export default function Contact() {
         }}
       >
         <div className="absolute inset-0 bg-gradient-to-b from-[#0d0d1a]/90 via-[#0d0d1a]/80 to-[#0d0d1a]" />
-        <div className="absolute inset-0 opacity-[0.025]"
-          style={{
-            backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)',
-            backgroundSize: '40px 40px',
-          }}
-        />
         <div className="relative z-10 w-full max-w-2xl mx-auto pt-8 pb-10 flex flex-col items-center gap-3">
           <div className="inline-flex items-center gap-2 bg-orange-500/15 border border-orange-500/30 px-5 py-2 rounded-full">
             <Phone size={12} className="text-orange-400" />
@@ -124,8 +147,6 @@ export default function Contact() {
 
           {/* ══ LEFT — Contact Info ══ */}
           <div className="flex flex-col gap-7">
-
-            {/* Heading */}
             <div>
               <p className="text-orange-400 text-xs font-bold tracking-[4px] uppercase mb-3">Abivya Group</p>
               <h2
@@ -139,7 +160,6 @@ export default function Contact() {
               </p>
             </div>
 
-            {/* Contact cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
               {[
                 {
@@ -190,7 +210,6 @@ export default function Contact() {
               })}
             </div>
 
-            {/* Why Choose Us */}
             <div className="bg-gradient-to-br from-orange-500/10 to-orange-500/5 border border-orange-500/20 rounded-xl p-6">
               <p className="text-orange-400 text-xs font-bold tracking-[3px] uppercase mb-5">Why Choose Us</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3">
@@ -214,64 +233,8 @@ export default function Contact() {
           {/* ══ RIGHT — Enquiry Form ══ */}
           <div className="flex flex-col gap-5">
 
-            {/* ── Login Gate ── */}
-            {!clientUser && (
-              <div className="bg-[#111827] border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
-                {/* Header */}
-                <div className="bg-gradient-to-r from-orange-500/10 to-transparent border-b border-white/8 px-6 py-5 flex items-center gap-4">
-                  <div className="w-11 h-11 rounded-xl bg-orange-500 flex items-center justify-center shadow-lg shadow-orange-500/30 flex-shrink-0">
-                    <Lock size={18} className="text-white" />
-                  </div>
-                  <div>
-                    <h2 className="text-white font-black text-base" style={{ fontFamily: 'Playfair Display, serif' }}>
-                      Login to Send Enquiry
-                    </h2>
-                    <p className="text-gray-500 text-xs mt-0.5">Create a free account to get started</p>
-                  </div>
-                </div>
-
-                <div className="p-6 sm:p-8 flex flex-col items-center text-center gap-6">
-                  <div className="w-20 h-20 rounded-2xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center">
-                    <Lock size={32} className="text-orange-400" />
-                  </div>
-
-                  <div>
-                    <h3 className="text-white font-black text-xl mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>
-                      Members Only Access
-                    </h3>
-                    <p className="text-gray-400 text-sm leading-relaxed max-w-xs mx-auto">
-                      Please login or create a free account to view plot details and submit your enquiry.
-                    </p>
-                  </div>
-
-                  <div className="w-full flex flex-col gap-3">
-                    <button
-                      onClick={() => navigate('/client-login', { state: { from: '/contact', mode: 'login' } })}
-                      className="btn-gold w-full py-3.5 rounded-xl text-sm font-black tracking-widest uppercase flex items-center justify-center gap-2 shadow-lg shadow-orange-500/25"
-                    >
-                      <ArrowRight size={16} /> Login to Enquire
-                    </button>
-                    <button
-                      onClick={() => navigate('/client-login', { state: { from: '/contact', mode: 'register' } })}
-                      className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl text-sm font-bold border border-white/10 text-gray-300 hover:text-white hover:border-orange-500/40 transition-all"
-                    >
-                      <UserPlus size={16} className="text-orange-400" /> Create Free Account
-                    </button>
-                  </div>
-
-                  <div className="flex flex-wrap justify-center gap-3 pt-1">
-                    {['Free Registration', 'No Spam', 'Instant Access'].map(tag => (
-                      <span key={tag} className="flex items-center gap-1.5 text-[11px] text-gray-500">
-                        <CheckCircle size={11} className="text-orange-400" /> {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* ── Enquiry Form (only when logged in) ── */}
-            {clientUser && (submitted ? (
+            {submitted ? (
+              /* ── Success screen ── */
               <div className="bg-[#111827] border border-green-500/30 rounded-2xl p-10 sm:p-14 text-center">
                 <div className="w-20 h-20 rounded-full bg-green-500/15 border-2 border-green-500/30
                                 flex items-center justify-center mx-auto mb-6">
@@ -285,18 +248,31 @@ export default function Contact() {
                 </h3>
                 <p className="text-gray-400 text-sm leading-relaxed max-w-xs mx-auto mb-8">
                   Thank you! Our team will reach out within 24 hours to arrange your free site visit.
+                  You can also connect with us directly on WhatsApp right now.
                 </p>
-                <button
-                  onClick={() => setSubmitted(false)}
-                  className="btn-gold px-8 py-3.5 rounded-xl text-sm font-bold tracking-wider uppercase inline-flex items-center gap-2 shadow-lg shadow-orange-500/25"
-                >
-                  Submit Another <ArrowRight size={15} />
-                </button>
+
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                  <button
+                    onClick={() => openAdminWhatsApp(form)}
+                    className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl
+                               text-sm font-black tracking-wider uppercase bg-[#25D366] hover:bg-[#1ebe57]
+                               text-white transition-colors shadow-lg shadow-[#25D366]/25"
+                  >
+                    <WhatsAppIcon /> Chat on WhatsApp
+                  </button>
+                  <button
+                    onClick={() => { setSubmitted(false); setForm({ name: '', email: '', phone: '', plotSize: '', message: '', source: 'contact_page' }); }}
+                    className="btn-gold px-8 py-3.5 rounded-xl text-sm font-bold tracking-wider uppercase
+                               inline-flex items-center gap-2 shadow-lg shadow-orange-500/25"
+                  >
+                    Submit Another <ArrowRight size={15} />
+                  </button>
+                </div>
               </div>
             ) : (
+              /* ── Enquiry Form ── */
               <div className="bg-[#111827] border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
 
-                {/* Form header bar */}
                 <div className="bg-gradient-to-r from-orange-500/10 to-transparent border-b border-white/8 px-6 py-5 flex items-center gap-4">
                   <div className="w-11 h-11 rounded-xl bg-orange-500 flex items-center justify-center shadow-lg shadow-orange-500/30 flex-shrink-0">
                     <Send size={18} className="text-white" />
@@ -311,7 +287,6 @@ export default function Contact() {
 
                 <form onSubmit={handleSubmit} noValidate className="p-6 flex flex-col gap-5">
 
-                  {/* Name + Phone */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
                       <Label text="Full Name" required />
@@ -335,7 +310,6 @@ export default function Contact() {
                     </div>
                   </div>
 
-                  {/* Email + Plot Size */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
                       <Label text="Email Address" />
@@ -367,7 +341,6 @@ export default function Contact() {
                     </div>
                   </div>
 
-                  {/* Message */}
                   <div>
                     <Label text="Your Message" />
                     <textarea
@@ -382,14 +355,12 @@ export default function Contact() {
                     />
                   </div>
 
-                  {/* Error */}
                   {submitError && (
                     <div className="bg-red-900/20 border border-red-500/30 rounded-xl px-4 py-3">
                       <span className="text-red-400 text-sm">{submitError}</span>
                     </div>
                   )}
 
-                  {/* Trust tags */}
                   <div className="flex flex-wrap gap-2.5">
                     {['Free Site Visit', 'Spot Registration', 'Bank Loan', 'Legal Support'].map(tag => (
                       <span
@@ -401,7 +372,6 @@ export default function Contact() {
                     ))}
                   </div>
 
-                  {/* Submit */}
                   <button
                     type="submit"
                     disabled={loading}
@@ -420,7 +390,7 @@ export default function Contact() {
                   </p>
                 </form>
               </div>
-            ))}
+            )}
 
             {/* Quick contact buttons */}
             <div className="grid grid-cols-2 gap-4">
@@ -440,18 +410,20 @@ export default function Contact() {
                 </div>
               </a>
               <a
-                href={`mailto:${contact.email}`}
+                href={`https://wa.me/${ADMIN_WHATSAPP}`}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-3 bg-[#111827] border border-white/10
-                           hover:border-orange-500/40 hover:shadow-lg hover:shadow-orange-500/5
+                           hover:border-[#25D366]/40 hover:shadow-lg hover:shadow-[#25D366]/5
                            rounded-xl px-4 py-4 transition-all group"
               >
-                <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center
-                                group-hover:bg-orange-500 transition-colors flex-shrink-0">
-                  <Mail size={16} className="text-orange-400 group-hover:text-white transition-colors" />
+                <div className="w-10 h-10 rounded-xl bg-[#25D366]/10 border border-[#25D366]/20 flex items-center justify-center
+                                group-hover:bg-[#25D366] transition-colors flex-shrink-0">
+                  <span className="text-[#25D366] group-hover:text-white transition-colors"><WhatsAppIcon /></span>
                 </div>
                 <div className="min-w-0">
-                  <p className="text-gray-500 text-[10px] font-bold tracking-widest uppercase">Email</p>
-                  <p className="text-white font-bold text-xs truncate">{contact.email}</p>
+                  <p className="text-gray-500 text-[10px] font-bold tracking-widest uppercase">WhatsApp</p>
+                  <p className="text-white font-bold text-xs">Chat Now</p>
                 </div>
               </a>
             </div>

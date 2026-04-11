@@ -1,8 +1,7 @@
-import { useState, useRef, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
-import { Menu, X, Sun, Moon, ChevronDown, FileText, LogOut } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 import { propertyInfo } from '../data/propertyData';
 
 function AbivyaIcon({ size = 30 }) {
@@ -50,7 +49,7 @@ function NcIcon({ size = 26 }) {
 
 const NAV_LINKS = [
   { to: '/',            label: 'Home' },
-  { to: '/projects',  label: 'Project' },
+  { to: '/projects',    label: 'Project' },
   { to: '/layout-plan', label: 'Layout Plan' },
   { to: '/gallery',     label: 'Gallery' },
   { to: '/location',    label: 'Location' },
@@ -58,39 +57,12 @@ const NAV_LINKS = [
 ];
 
 export default function Navbar() {
-  const [menuOpen,   setMenuOpen]   = useState(false);
-  const [dropOpen,   setDropOpen]   = useState(false);
-  const [dropPos,    setDropPos]    = useState({ top: 0, right: 0 });
-  const { clientUser, clientLogout } = useAuth();
-  const { theme, toggleTheme }      = useTheme();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { theme, toggleTheme }  = useTheme();
   const isLight = theme === 'light';
   const location = useLocation();
-  const navigate = useNavigate();
-  const btnRef   = useRef(null);
-  const dropRef  = useRef(null);
 
   const isActive = (path) => location.pathname === path;
-  const handleLogout = () => { clientLogout(); navigate('/'); };
-
-  // Close dropdown on outside click
-  useEffect(() => {
-    const handler = (e) => {
-      if (dropRef.current  && !dropRef.current.contains(e.target) &&
-          btnRef.current   && !btnRef.current.contains(e.target)) {
-        setDropOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
-  }, []);
-
-  const openDrop = () => {
-    if (btnRef.current) {
-      const r = btnRef.current.getBoundingClientRect();
-      setDropPos({ top: r.bottom + 8, right: window.innerWidth - r.right });
-    }
-    setDropOpen(prev => !prev);
-  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0d0d1a]/97 backdrop-blur-md border-b border-white/10">
@@ -146,7 +118,7 @@ export default function Navbar() {
           </div>
         </Link>
 
-        {/* Desktop nav — visible from xl (1280px) */}
+        {/* Desktop nav */}
         <div className="hidden xl:flex items-center gap-6">
           {NAV_LINKS.map(link => (
             <Link
@@ -164,8 +136,6 @@ export default function Navbar() {
 
         {/* Right side */}
         <div className="hidden xl:flex items-center gap-3 flex-shrink-0">
-
-          {/* Theme toggle — always visible */}
           <button
             onClick={toggleTheme}
             title={isLight ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
@@ -176,79 +146,13 @@ export default function Navbar() {
             {isLight ? <Moon size={16} /> : <Sun size={16} />}
           </button>
 
-          {clientUser ? (
-            <>
-              {/* User dropdown button */}
-              <button
-                ref={btnRef}
-                onClick={openDrop}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-xl border transition-all ${isLight
-                  ? 'border-black/10 hover:bg-black/5'
-                  : 'border-white/10 hover:border-white/20'}`}
-              >
-                <div className="w-7 h-7 rounded-full bg-orange-500 flex items-center justify-center flex-shrink-0">
-                  <span className="text-white text-[10px] font-black">{clientUser.name?.[0]?.toUpperCase() || 'U'}</span>
-                </div>
-                <span className={`text-[13px] font-medium ${isLight ? 'text-gray-800' : 'text-gray-300'}`}>
-                  Hi, {clientUser.name.split(' ')[0]}
-                </span>
-                <ChevronDown size={13} className={`transition-transform ${isLight ? 'text-gray-500' : 'text-gray-500'} ${dropOpen ? 'rotate-180' : ''}`} />
-              </button>
-
-              {/* Fixed dropdown */}
-              {dropOpen && (
-                <div
-                  ref={dropRef}
-                  style={{ position: 'fixed', top: dropPos.top, right: dropPos.right, zIndex: 9999 }}
-                  className={`w-52 rounded-2xl border shadow-2xl overflow-hidden ${isLight
-                    ? 'bg-white border-black/10'
-                    : 'bg-[#111827] border-white/10'}`}
-                >
-                  <Link
-                    to="/my-inquiries"
-                    onClick={() => setDropOpen(false)}
-                    className={`flex items-center gap-3 px-4 py-3.5 text-sm font-semibold border-b transition-colors ${isLight
-                      ? 'text-gray-700 hover:bg-gray-50 border-black/5'
-                      : 'text-gray-200 hover:bg-white/5 border-white/5'}`}
-                  >
-                    <FileText size={15} className="text-orange-500 flex-shrink-0" />
-                    <span>My Inquiries</span>
-                  </Link>
-                  <button
-                    onClick={() => { toggleTheme(); setDropOpen(false); }}
-                    className={`w-full flex items-center gap-3 px-4 py-3.5 text-sm font-semibold border-b transition-colors ${isLight
-                      ? 'text-gray-700 hover:bg-gray-50 border-black/5'
-                      : 'text-gray-200 hover:bg-white/5 border-white/5'}`}
-                  >
-                    {isLight
-                      ? <><Sun size={15} className="text-amber-500 flex-shrink-0" /><span>Switch to Dark Mode</span></>
-                      : <><Moon size={15} className="text-indigo-400 flex-shrink-0" /><span>Switch to Light Mode</span></>
-                    }
-                  </button>
-                  <button
-                    onClick={() => { handleLogout(); setDropOpen(false); }}
-                    className={`w-full flex items-center gap-3 px-4 py-3.5 text-sm font-semibold text-red-500 transition-colors ${isLight ? 'hover:bg-red-50' : 'hover:bg-red-500/10'}`}
-                  >
-                    <LogOut size={15} className="flex-shrink-0" />
-                    <span>Logout</span>
-                  </button>
-                </div>
-              )}
-            </>
-          ) : (
-            <Link to="/client-login"
-              className={`text-[13px] font-medium transition-colors ${isLight ? 'text-gray-600 hover:text-orange-500' : 'text-gray-400 hover:text-orange-400'}`}>
-              My Inquiries
-            </Link>
-          )}
-
           <Link to="/contact"
             className="btn-gold px-5 py-2 text-[11px] rounded-lg font-bold tracking-widest uppercase whitespace-nowrap">
             Book Site Visit
           </Link>
         </div>
 
-        {/* Tablet nav — lg to xl */}
+        {/* Tablet nav */}
         <div className="hidden lg:flex xl:hidden items-center gap-5 flex-1 justify-center">
           {NAV_LINKS.map(link => (
             <Link
@@ -310,8 +214,6 @@ export default function Navbar() {
               >
                 Book a Free Site Visit
               </Link>
-
-              {/* Theme toggle row */}
               <button
                 onClick={toggleTheme}
                 className={`flex items-center gap-3 py-2.5 px-4 rounded-xl text-sm font-medium border transition-colors ${isLight
@@ -323,32 +225,6 @@ export default function Navbar() {
                   : <><Moon size={15} className="text-indigo-400" /> Switch to Light Mode</>
                 }
               </button>
-
-              {clientUser ? (
-                <>
-                  <Link
-                    to="/my-inquiries"
-                    onClick={() => setMenuOpen(false)}
-                    className="text-sm text-gray-400 hover:text-orange-400 py-2 px-4 transition-colors"
-                  >
-                    My Inquiries
-                  </Link>
-                  <button
-                    onClick={() => { handleLogout(); setMenuOpen(false); }}
-                    className="text-sm text-red-400 text-left py-2 px-4"
-                  >
-                    Logout ({clientUser.name})
-                  </button>
-                </>
-              ) : (
-                <Link
-                  to="/client-login"
-                  onClick={() => setMenuOpen(false)}
-                  className="text-sm text-gray-400 hover:text-orange-400 py-2 px-4 transition-colors"
-                >
-                  My Inquiries →
-                </Link>
-              )}
             </div>
           </div>
         </div>
