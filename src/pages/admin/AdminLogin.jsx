@@ -122,12 +122,6 @@ export default function AdminLogin() {
             </button>
           </form>
 
-          {/* Demo credentials hint */}
-          <div className="mt-6 bg-[#0d0d1a] rounded-lg p-4 border border-orange-500/10">
-            <p className="text-gray-500 text-xs font-bold mb-2 tracking-wider">ADMIN CREDENTIALS:</p>
-            <p className="text-gray-400 text-xs">Email: <span className="text-orange-400">admin@abivyagroup.com</span></p>
-            <p className="text-gray-400 text-xs">Password: <span className="text-orange-400">Abivya@2025</span></p>
-          </div>
         </div>
 
         <p className="text-center text-gray-600 text-xs mt-6">

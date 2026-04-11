@@ -1,11 +1,12 @@
 const BASE = import.meta.env.VITE_API_URL || 'https://realestate-api-4yk7.onrender.com/api';
 
-async function req(method, path, body, token) {
+async function req(method, path, body, token, attempt = 1) {
   const headers = { 'Content-Type': 'application/json' };
   if (token) headers['Authorization'] = `Bearer ${token}`;
 
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 60000);
+  // 90s on first try (covers Render cold-start ~50s); 30s on retry
+  const timer = setTimeout(() => controller.abort(), attempt === 1 ? 90000 : 30000);
 
   let res;
   try {
@@ -16,7 +17,10 @@ async function req(method, path, body, token) {
       signal: controller.signal,
     });
   } catch (err) {
-    if (err.name === 'AbortError') throw new Error('Request timed out. The server may be starting up — please try again in a moment.');
+    if (err.name === 'AbortError') {
+      if (attempt === 1) return req(method, path, body, token, 2);
+      throw new Error('Request timed out. Please check your connection and try again.');
+    }
     throw err;
   } finally {
     clearTimeout(timer);
